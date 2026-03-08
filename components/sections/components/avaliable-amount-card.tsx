@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import { formatAmount } from "@/helpers/amount";
+import { useTransactionsStore } from "@/store/transactions";
 import { Eye, EyeClosed } from "lucide-react";
 import { useState } from "react";
 
@@ -8,12 +9,15 @@ import { useState } from "react";
 export default function AvaliableAmountCard() {
 
     const [isShowing, setIsShowing] = useState(false);
+    const transactions = useTransactionsStore((state) => state.transactions);
 
     const toggleAmountVisibility = () => {
         setIsShowing(!isShowing);
     }
 
-    const amount = 2000
+    const amount = transactions.reduce((acc, t) => {
+        return t.type === "deposito" ? acc + t.value : acc - t.value;
+    }, 0);
     const dynamicEyeIcon = isShowing ? <Eye /> : <EyeClosed />;
 
     return (

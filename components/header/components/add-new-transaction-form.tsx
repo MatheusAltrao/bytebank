@@ -19,18 +19,26 @@ import {
 import { formatCurrency } from "@/helpers/currency";
 import { cn } from "@/lib/utils";
 import { TransactionFormData, transactionSchema } from "@/schema/transaction.schema";
+import { useTransactionsStore } from "@/store/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-export default function AddNewTransactionForm() {
+interface AddNewTransactionFormProps {
+    onSuccess?: () => void;
+}
+
+export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFormProps) {
+    const addTransaction = useTransactionsStore((state) => state.addTransaction);
+
     const {
         register,
         handleSubmit,
         control,
         setValue,
+        reset,
         formState: { errors },
     } = useForm<TransactionFormData>({
         resolver: zodResolver(transactionSchema),
@@ -53,10 +61,15 @@ export default function AddNewTransactionForm() {
             data.valor.replace(/\./g, "").replace(",", ".")
         );
 
-        console.log({
-            ...data,
-            valor: valorNumerico,
+        addTransaction({
+            title: data.titulo,
+            type: data.tipo,
+            date: data.data.toISOString(),
+            value: valorNumerico,
         });
+
+        reset();
+        onSuccess?.();
     }
 
     return (

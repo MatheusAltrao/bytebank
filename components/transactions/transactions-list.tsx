@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Table,
     TableBody,
@@ -6,41 +8,34 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
+import { formatAmount } from "@/helpers/amount";
+import { formatDate } from "@/helpers/date";
+import { useTransactionsStore } from "@/store/transactions";
+import type { TransactionType } from "@/types/transaction";
 import { Pen, Trash } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export default function TransactionsList() {
+const TYPE_LABELS: Record<TransactionType, string> = {
+    deposito: "Depósito",
+    retirada: "Retirada",
+};
 
-
-    const TRANSACTIONS_MOCK = [
-        {
-            id: 1,
-            title: 'Trabalho',
-            type: 'Depósito',
-            date: new Date(),
-            value: 250
-        },
-        {
-            id: 2,
-            title: 'Aluguel',
-            type: 'Retirada',
-            date: new Date(),
-            value: 1200
-        },
-    ]
-
-    const badgeVariant = (type: string) => {
-        switch (type) {
-            case 'Depósito':
-                return 'default';
-            case 'Retirada':
-                return 'destructive';
-            default:
-                return 'secondary';
-        }
+const badgeVariant = (type: TransactionType) => {
+    switch (type) {
+        case "deposito":
+            return "default";
+        case "retirada":
+            return "destructive";
+        default:
+            return "secondary";
     }
+};
+
+export default function TransactionsList() {
+    const transactions = useTransactionsStore((state) => state.transactions);
+    const removeTransaction = useTransactionsStore((state) => state.removeTransaction);
 
     return (
         <Table>
@@ -54,17 +49,21 @@ export default function TransactionsList() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {TRANSACTIONS_MOCK.map((transaction) => (
+                {transactions.map((transaction) => (
                     <TableRow key={transaction.id}>
                         <TableCell className="font-medium">{transaction.title}</TableCell>
-                        <TableCell> <Badge variant={badgeVariant(transaction.type)}> {transaction.type} </Badge>  </TableCell>
-                        <TableCell>{transaction.date.toLocaleDateString()}</TableCell>
-                        <TableCell className="font-medium">R${transaction.value},00</TableCell>
-                        <TableCell className="text-right" >
-                            <div className="flex items-center justify-end gap-1"     >
+                        <TableCell>
+                            <Badge variant={badgeVariant(transaction.type)}>
+                                {TYPE_LABELS[transaction.type]}
+                            </Badge>
+                        </TableCell>
+                        <TableCell>{formatDate(new Date(transaction.date))}</TableCell>
+                        <TableCell className="font-medium">{formatAmount(transaction.value)}</TableCell>
+                        <TableCell className="text-right">
+                            <div className="flex items-center justify-end gap-1">
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button size={'icon-lg'} variant={'warning'}><Pen /></Button>
+                                        <Button size={"icon-lg"} variant={"warning"}><Pen /></Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         Editar transação
@@ -72,7 +71,13 @@ export default function TransactionsList() {
                                 </Tooltip>
                                 <Tooltip>
                                     <TooltipTrigger asChild>
-                                        <Button size={'icon-lg'} variant={'destructive'}><Trash /></Button>
+                                        <Button
+                                            size={"icon-lg"}
+                                            variant={"destructive"}
+                                            onClick={() => removeTransaction(transaction.id)}
+                                        >
+                                            <Trash />
+                                        </Button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         Excluir transação
