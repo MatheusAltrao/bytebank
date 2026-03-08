@@ -9,6 +9,7 @@ import {
 import { Pen, Trash } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export default function TransactionsList() {
 
@@ -61,8 +62,22 @@ export default function TransactionsList() {
                         <TableCell className="font-medium">R${transaction.value},00</TableCell>
                         <TableCell className="text-right" >
                             <div className="flex items-center justify-end gap-1"     >
-                                <Button size={'icon-lg'} variant={'warning'} ><Pen /></Button>
-                                <Button size={'icon-lg'} variant={'destructive'}><Trash /></Button>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button size={'icon-lg'} variant={'warning'}><Pen /></Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Editar transação
+                                    </TooltipContent>
+                                </Tooltip>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button size={'icon-lg'} variant={'destructive'}><Trash /></Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Excluir transação
+                                    </TooltipContent>
+                                </Tooltip>
                             </div>
                         </TableCell>
                     </TableRow>

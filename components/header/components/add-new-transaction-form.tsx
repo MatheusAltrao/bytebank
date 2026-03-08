@@ -25,9 +25,6 @@ import { ptBR } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-
-
-
 export default function AddNewTransactionForm() {
     const {
         register,
