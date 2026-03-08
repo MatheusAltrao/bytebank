@@ -3,6 +3,7 @@
 import {
     Table,
     TableBody,
+    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -12,10 +13,11 @@ import { formatAmount } from "@/helpers/amount";
 import { formatDate } from "@/helpers/date";
 import { useTransactionsStore } from "@/store/transactions";
 import type { TransactionType } from "@/types/transaction";
-import { Pen, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import EditTransaction from "./components/edit-transaction";
 
 const TYPE_LABELS: Record<TransactionType, string> = {
     deposito: "Depósito",
@@ -61,14 +63,7 @@ export default function TransactionsList() {
                         <TableCell className="font-medium">{formatAmount(transaction.value)}</TableCell>
                         <TableCell className="text-right">
                             <div className="flex items-center justify-end gap-1">
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button size={"icon-lg"} variant={"warning"}><Pen /></Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        Editar transação
-                                    </TooltipContent>
-                                </Tooltip>
+                                <EditTransaction transaction={transaction} />
                                 <Tooltip>
                                     <TooltipTrigger asChild>
                                         <Button
@@ -88,6 +83,12 @@ export default function TransactionsList() {
                     </TableRow>
                 ))}
             </TableBody>
+
+            <TableCaption>
+                {transactions.length === 0
+                    ? "Nenhuma transação registrada."
+                    : `Total de ${transactions.length} transação(s).`}
+            </TableCaption>
         </Table>
     )
 }

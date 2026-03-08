@@ -6,6 +6,7 @@ export interface TransactionsState {
 
 export interface TransactionsActions {
     addTransaction: (transaction: Omit<Transaction, "id">) => void;
+    updateTransaction: (id: string, transaction: Omit<Transaction, "id">) => void;
     removeTransaction: (id: string) => void;
 }
 

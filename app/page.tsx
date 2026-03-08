@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className="w-full max-w-5xl p-2 mx-auto mt-10 space-y-8 " >
+      <div className="w-full max-w-5xl p-2 mx-auto mt-8 space-y-8 " >
         <HeroSection />
         <TransactionsList />
       </div>
