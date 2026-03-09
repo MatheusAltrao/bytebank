@@ -1,6 +1,5 @@
 import AddNewTransactionForm from '@/components/header/components/add-new-transaction-form'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fn } from 'storybook'
 
 const meta: Meta<typeof AddNewTransactionForm> = {
   title: 'Transações/AddNewTransactionForm',
@@ -21,8 +20,4 @@ const meta: Meta<typeof AddNewTransactionForm> = {
 export default meta
 type Story = StoryObj<typeof AddNewTransactionForm>
 
-export const Default: Story = {
-  args: {
-    onSuccess: fn(),
-  },
-}
+export const Default: Story = {}

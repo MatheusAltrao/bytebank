@@ -1,7 +1,6 @@
 import EditTransactionForm from '@/components/transactions/components/edit-transaction-form'
 import type { Transaction } from '@/types/transaction'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fn } from 'storybook'
 
 const mockTransaction: Transaction = {
   id: '1',
@@ -42,7 +41,6 @@ export const EditDeposito: Story = {
   name: 'Editar Depósito',
   args: {
     transaction: mockTransaction,
-    onSuccess: fn(),
   },
 }
 
@@ -50,6 +48,5 @@ export const EditRetirada: Story = {
   name: 'Editar Retirada',
   args: {
     transaction: mockRetirada,
-    onSuccess: fn(),
   },
 }
