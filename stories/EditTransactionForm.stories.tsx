@@ -1,55 +1,55 @@
-import EditTransactionForm from "@/components/transactions/components/edit-transaction-form";
-import type { Transaction } from "@/types/transaction";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { fn } from "@storybook/test";
+import EditTransactionForm from '@/components/transactions/components/edit-transaction-form'
+import type { Transaction } from '@/types/transaction'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
+import { fn } from '@storybook/test'
 
 const mockTransaction: Transaction = {
-    id: "1",
-    title: "Salário",
-    type: "deposito",
-    date: new Date("2026-03-01").toISOString(),
-    value: 5000,
-};
+  id: '1',
+  title: 'Salário',
+  type: 'deposito',
+  date: new Date('2026-03-01').toISOString(),
+  value: 5000,
+}
 
 const mockRetirada: Transaction = {
-    id: "2",
-    title: "Aluguel",
-    type: "retirada",
-    date: new Date("2026-03-05").toISOString(),
-    value: 1200,
-};
+  id: '2',
+  title: 'Aluguel',
+  type: 'retirada',
+  date: new Date('2026-03-05').toISOString(),
+  value: 1200,
+}
 
 const meta: Meta<typeof EditTransactionForm> = {
-    title: "Transações/EditTransactionForm",
-    component: EditTransactionForm,
-    tags: ["autodocs"],
-    parameters: {
-        layout: "centered",
-    },
-    decorators: [
-        (Story) => (
-            <div className="w-95">
-                <Story />
-            </div>
-        ),
-    ],
-};
+  title: 'Transações/EditTransactionForm',
+  component: EditTransactionForm,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'centered',
+  },
+  decorators: [
+    (Story) => (
+      <div className="w-95">
+        <Story />
+      </div>
+    ),
+  ],
+}
 
-export default meta;
-type Story = StoryObj<typeof EditTransactionForm>;
+export default meta
+type Story = StoryObj<typeof EditTransactionForm>
 
 export const EditDeposito: Story = {
-    name: "Editar Depósito",
-    args: {
-        transaction: mockTransaction,
-        onSuccess: fn(),
-    },
-};
+  name: 'Editar Depósito',
+  args: {
+    transaction: mockTransaction,
+    onSuccess: fn(),
+  },
+}
 
 export const EditRetirada: Story = {
-    name: "Editar Retirada",
-    args: {
-        transaction: mockRetirada,
-        onSuccess: fn(),
-    },
-};
+  name: 'Editar Retirada',
+  args: {
+    transaction: mockRetirada,
+    onSuccess: fn(),
+  },
+}

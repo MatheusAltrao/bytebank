@@ -1,9 +1,9 @@
-export type TransactionType = "deposito" | "retirada";
+export type TransactionType = 'deposito' | 'retirada'
 
 export interface Transaction {
-    id: string;
-    title: string;
-    type: TransactionType;
-    date: string;
-    value: number;
+  id: string
+  title: string
+  type: TransactionType
+  date: string
+  value: number
 }
