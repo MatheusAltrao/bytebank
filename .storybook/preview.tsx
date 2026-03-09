@@ -1,7 +1,15 @@
 import type { Preview } from '@storybook/nextjs-vite';
 import '../app/globals.css';
+import { TooltipProvider } from '../components/ui/tooltip';
 
 const preview: Preview = {
+  decorators: [
+    (Story) => (
+      <TooltipProvider>
+        <Story />
+      </TooltipProvider>
+    ),
+  ],
   parameters: {
     controls: {
       matchers: {

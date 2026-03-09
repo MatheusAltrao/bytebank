@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { Pen, Trash } from "lucide-react";
 
@@ -16,14 +16,12 @@ type Story = StoryObj;
 
 export const Default: Story = {
     render: () => (
-        <TooltipProvider>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <Button variant="outline">Passe o mouse</Button>
-                </TooltipTrigger>
-                <TooltipContent>Tooltip de exemplo</TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <Button variant="outline">Passe o mouse</Button>
+            </TooltipTrigger>
+            <TooltipContent>Tooltip de exemplo</TooltipContent>
+        </Tooltip>
     ),
 };
 

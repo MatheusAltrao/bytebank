@@ -22,6 +22,10 @@ interface EditTransactionProps {
 export default function EditTransaction({ transaction }: EditTransactionProps) {
     const [open, setOpen] = useState(false);
 
+    const hadleClose = () => {
+        setOpen(false);
+    }
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <Tooltip>
@@ -43,7 +47,7 @@ export default function EditTransaction({ transaction }: EditTransactionProps) {
                 </DialogHeader>
                 <EditTransactionForm
                     transaction={transaction}
-                    onSuccess={() => setOpen(false)}
+                    onSuccess={hadleClose}
                 />
             </DialogContent>
         </Dialog>
