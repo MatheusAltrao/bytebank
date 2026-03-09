@@ -1,50 +1,20 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useIsMobile } from '@/helpers/use-mobile'
 import type { Transaction } from '@/types/transaction'
-import { Pen } from 'lucide-react'
-import { useState } from 'react'
-import EditTransactionForm from './edit-transaction-form'
+import EditTransactionDesktop from './edit-transaction-desktop'
+import EditTransactionMobile from './edit-transaction-mobile'
 
 interface EditTransactionProps {
   transaction: Transaction
 }
 
 export default function EditTransaction({ transaction }: EditTransactionProps) {
-  const [open, setOpen] = useState(false)
+  const isMobile = useIsMobile()
 
-  const hadleClose = () => {
-    setOpen(false)
+  if (isMobile) {
+    return <EditTransactionMobile transaction={transaction} />
   }
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <Button size={'icon-lg'} variant={'warning'}>
-              <Pen />
-            </Button>
-          </DialogTrigger>
-        </TooltipTrigger>
-        <TooltipContent>Editar transação</TooltipContent>
-      </Tooltip>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Editar transação</DialogTitle>
-          <DialogDescription>Altere os dados da transação e clique em salvar para atualizar.</DialogDescription>
-        </DialogHeader>
-        <EditTransactionForm transaction={transaction} onSuccess={hadleClose} />
-      </DialogContent>
-    </Dialog>
-  )
+  return <EditTransactionDesktop transaction={transaction} />
 }
