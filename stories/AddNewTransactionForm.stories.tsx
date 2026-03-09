@@ -1,6 +1,6 @@
 import AddNewTransactionForm from '@/components/header/components/add-new-transaction-form'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fn } from '@storybook/test'
+import { fn } from 'storybook'
 
 const meta: Meta<typeof AddNewTransactionForm> = {
   title: 'Transações/AddNewTransactionForm',

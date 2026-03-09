@@ -24,7 +24,6 @@ const config: StorybookConfig = {
     config.optimizeDeps.include = [
       ...(config.optimizeDeps.include || []),
       'radix-ui',
-      '@storybook/test',
     ];
     return config;
   },

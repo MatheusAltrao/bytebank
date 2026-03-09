@@ -1,7 +1,7 @@
 import EditTransactionForm from '@/components/transactions/components/edit-transaction-form'
 import type { Transaction } from '@/types/transaction'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fn } from '@storybook/test'
+import { fn } from 'storybook'
 
 const mockTransaction: Transaction = {
   id: '1',
