@@ -1,6 +1,7 @@
 import Header from '@/components/header/header'
 import HeroSection from '@/components/sections/hero-section'
 import TransactionsList from '@/components/transactions/transactions-list'
+import { Suspense } from 'react'
 
 export default function Home() {
   return (
@@ -8,7 +9,9 @@ export default function Home() {
       <Header />
       <div className="w-full max-w-5xl p-2 mx-auto mt-8 space-y-8 ">
         <HeroSection />
-        <TransactionsList />
+        <Suspense>
+          <TransactionsList />
+        </Suspense>
       </div>
     </div>
   )
