@@ -130,12 +130,30 @@ export default function TransactionsList() {
         <TableBody>
           {paginated.map((transaction) => (
             <TableRow key={transaction.id}>
-              <TableCell className="font-medium">{transaction.title}</TableCell>
+              <TableCell>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <p className="font-medium text-left truncate w-40">{transaction.title}</p>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="wrap-break-word">{transaction.title}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TableCell>
               <TableCell>
                 <Badge variant={badgeVariant(transaction.type)}>{TYPE_LABELS[transaction.type]}</Badge>
               </TableCell>
               <TableCell>{formatDate(new Date(transaction.date))}</TableCell>
-              <TableCell className="font-medium">{formatAmount(transaction.value)}</TableCell>
+              <TableCell>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <p className="font-medium text-left  truncate w-40">{formatAmount(transaction.value)}</p>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="wrap-break-word">{formatAmount(transaction.value)}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
                   <EditTransaction transaction={transaction} />
@@ -154,8 +172,8 @@ export default function TransactionsList() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Excluir transação</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Tem certeza que deseja excluir a transação <strong>{transaction.title}</strong>? Essa ação não
-                          pode ser desfeita.
+                          Tem certeza que deseja excluir a transação{' '}
+                          <strong className="truncate w-40">{transaction.title}</strong>?
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

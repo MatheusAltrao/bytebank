@@ -4,7 +4,7 @@ export const transactionSchema = z.object({
   titulo: z
     .string()
     .min(3, 'O título deve ter no mínimo 3 caracteres')
-    .max(100, 'O título deve ter no máximo 100 caracteres'),
+    .max(30, 'O título deve ter no máximo 30 caracteres'),
   tipo: z.enum(['deposito', 'retirada'], {
     message: 'Selecione o tipo da transação',
   }),
@@ -14,6 +14,7 @@ export const transactionSchema = z.object({
   valor: z
     .string()
     .min(1, 'Informe o valor da transação')
+    .max(15, 'O valor é muito grande')
     .refine(
       (val) => {
         const num = Number(val.replace(/\./g, '').replace(',', '.'))
