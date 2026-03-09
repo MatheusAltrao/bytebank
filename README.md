@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 ByteBank - Controle Financeiro
 
-## Getting Started
+Aplicação web de controle financeiro pessoal desenvolvida como **Tech Challenge** da FIAP. Permite gerenciar transações de depósito e retirada com persistência local, filtros e paginação.
 
-First, run the development server:
+## ✨ Funcionalidades
+
+- **Adicionar transação** — formulário com validação (título, tipo, data via calendário e valor em R$)
+- **Editar transação** — altera qualquer transação existente com os dados pré-preenchidos
+- **Excluir transação** — remove uma transação da lista
+- **Saldo dinâmico** — calcula automaticamente (depósitos − retiradas) e permite ocultar o valor
+- **Filtros** — busca por texto (título, data, valor) e filtro por tipo (Depósito / Retirada)
+- **Paginação** — navegação entre páginas com 5 itens por página
+- **Persistência** — dados salvos no localStorage via Zustand (persistem entre reloads)
+- **Storybook** — documentação visual e interativa de todos os componentes
+
+## 🛠️ Tecnologias
+
+| Categoria | Tecnologias |
+|-----------|------------|
+| Framework | Next.js 16, React 19, TypeScript |
+| Estilização | Tailwind CSS 4, shadcn/ui, Radix UI |
+| Formulários | React Hook Form, Zod |
+| Estado | Zustand (com persist/localStorage) |
+| Documentação | Storybook 10 |
+| Utilitários | date-fns, Lucide Icons |
+
+## 🚀 Como rodar
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) >= 18
+- npm (ou yarn / pnpm)
+
+### Instalação
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone o repositório
+git clone <url-do-repositorio>
+cd projeto-financeiro
+
+# Instale as dependências
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Desenvolvimento
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Inicia o servidor Next.js em http://localhost:3000
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Storybook
 
-## Learn More
+```bash
+# Inicia o Storybook em http://localhost:6006
+npm run storybook
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Build de produção
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Gera o build otimizado
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Inicia o servidor de produção
+npm start
+```
 
-## Deploy on Vercel
+## 📁 Estrutura do projeto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+├── app/                  # Páginas e layout (App Router)
+├── components/
+│   ├── header/           # Header e formulário de nova transação
+│   ├── sections/         # Hero section e card de saldo
+│   ├── transactions/     # Lista, edição e componentes de transação
+│   └── ui/               # Componentes base (shadcn/ui)
+├── helpers/              # Funções utilitárias (formatação de moeda, data, etc.)
+├── schema/               # Schemas de validação (Zod)
+├── store/
+│   └── transactions/     # Store Zustand (estado, ações, dados iniciais)
+├── stories/              # Stories do Storybook
+├── types/                # Tipagens TypeScript
+└── .storybook/           # Configuração do Storybook
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 Scripts disponíveis
+
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção |
+| `npm start` | Servidor de produção |
+| `npm run lint` | Linting com ESLint |
+| `npm run storybook` | Inicia o Storybook |
+| `npm run build-storybook` | Build estático do Storybook |
