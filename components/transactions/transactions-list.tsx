@@ -1,5 +1,16 @@
 'use client'
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from '@/components/ui/pagination'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -128,18 +139,33 @@ export default function TransactionsList() {
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
                   <EditTransaction transaction={transaction} />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size={'icon-lg'}
-                        variant={'destructive'}
-                        onClick={() => removeTransaction(transaction.id)}
-                      >
-                        <Trash />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Excluir transação</TooltipContent>
-                  </Tooltip>
+                  <AlertDialog>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <AlertDialogTrigger asChild>
+                          <Button size={'icon-lg'} variant={'destructive'}>
+                            <Trash />
+                          </Button>
+                        </AlertDialogTrigger>
+                      </TooltipTrigger>
+                      <TooltipContent>Excluir transação</TooltipContent>
+                    </Tooltip>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Excluir transação</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Tem certeza que deseja excluir a transação <strong>{transaction.title}</strong>? Essa ação não
+                          pode ser desfeita.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction variant="destructive" onClick={() => removeTransaction(transaction.id)}>
+                          Excluir
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </TableCell>
             </TableRow>
