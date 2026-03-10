@@ -23,8 +23,7 @@ export default function AvaliableAmountCard() {
       <div className="flex items-center gap-1 ">
         <span className="text-xl font-bold">{isShowing ? formatAmount(amount) : '******* '}</span>
         <Button variant={'outline'} className="h-8 w-8 rounded" onClick={toggleAmountVisibility}>
-          {' '}
-          {dynamicEyeIcon}{' '}
+          {dynamicEyeIcon}
         </Button>
       </div>
       <span className="text-sm text-muted-foreground">Saldo disponível</span>
