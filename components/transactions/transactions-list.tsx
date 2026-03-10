@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
-import { useTransactionFilters } from '@/helpers/use-transaction-filters'
+import { useTransactionFilters } from '@/hooks/use-transaction-filters'
 import { useTransactionsStore } from '@/store/transactions'
 import type { TransactionType } from '@/types/transaction'
 import { Trash } from 'lucide-react'

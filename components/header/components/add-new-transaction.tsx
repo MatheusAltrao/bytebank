@@ -1,6 +1,6 @@
 'use client'
 
-import { useIsMobile } from '@/helpers/use-mobile'
+import { useIsMobile } from '@/hooks/use-mobile'
 import AddNewTransactionDesktop from './add-new-transaction-desktop'
 import AddNewTransactionMobile from './add-new-transaction-mobile'
 
