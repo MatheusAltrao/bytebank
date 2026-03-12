@@ -8,9 +8,15 @@ export default function MyTransactionsPage() {
   return (
     <div className="space-y-6">
       <BackButton />
-      <Suspense fallback={<MyTransactionsListLoading />}>
-        <TransactionsList />
-      </Suspense>
+      <div className="space-y-4">
+        <header>
+          <h2 className="text-lg font-semibold">Todas as transações</h2>
+          <p className="text-sm text-muted-foreground">Veja todas as transações realizadas.</p>
+        </header>
+        <Suspense fallback={<MyTransactionsListLoading />}>
+          <TransactionsList />
+        </Suspense>
+      </div>
     </div>
   )
 }

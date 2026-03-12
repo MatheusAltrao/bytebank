@@ -1,3 +1,4 @@
+import BackButton from '@/components/ui/back-button'
 import TransactionDetailsCard from './components/transaction-details-card'
 
 interface TransactionByIdPageProps {
@@ -6,5 +7,10 @@ interface TransactionByIdPageProps {
 
 export default async function TransactionByIdPage({ params }: TransactionByIdPageProps) {
   const { id } = await params
-  return <TransactionDetailsCard transactionId={id} />
+  return (
+    <div className="space-y-6">
+      <BackButton />
+      <TransactionDetailsCard transactionId={id} />
+    </div>
+  )
 }

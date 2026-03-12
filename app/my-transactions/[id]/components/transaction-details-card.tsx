@@ -1,7 +1,6 @@
 'use client'
 
 import EditTransaction from '@/components/transactions/components/edit-transaction'
-import BackButton from '@/components/ui/back-button'
 import { Badge } from '@/components/ui/badge'
 import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
@@ -23,39 +22,35 @@ export default function TransactionDetailsCard({ transactionId }: TransactionDet
   }
 
   return (
-    <div className="space-y-6">
-      <BackButton />
+    <div className="rounded-xl border p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold">{transaction.title}</h2>
+        <EditTransaction transaction={transaction} />
+      </div>
 
-      <div className="rounded-xl border p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">{transaction.title}</h2>
-          <EditTransaction transaction={transaction} />
+      <p className="text-muted-foreground wrap-break-word">{transaction.description}</p>
+
+      <div className="grid grid-cols-2 gap-4 pt-2">
+        <div>
+          <span className="text-sm text-muted-foreground">Tipo</span>
+          <div className="mt-1">
+            <Badge variant={badgeVariant(transaction.type)}>{TYPE_LABELS[transaction.type]}</Badge>
+          </div>
         </div>
 
-        <p className="text-muted-foreground wrap-break-word">{transaction.description}</p>
+        <div>
+          <span className="text-sm text-muted-foreground">Data</span>
+          <p className="mt-1 font-medium">{formatDate(new Date(transaction.date))}</p>
+        </div>
 
-        <div className="grid grid-cols-2 gap-4 pt-2">
-          <div>
-            <span className="text-sm text-muted-foreground">Tipo</span>
-            <div className="mt-1">
-              <Badge variant={badgeVariant(transaction.type)}>{TYPE_LABELS[transaction.type]}</Badge>
-            </div>
-          </div>
+        <div>
+          <span className="text-sm text-muted-foreground">Valor</span>
+          <p className="mt-1 font-medium">{formatAmount(transaction.amount)}</p>
+        </div>
 
-          <div>
-            <span className="text-sm text-muted-foreground">Data</span>
-            <p className="mt-1 font-medium">{formatDate(new Date(transaction.date))}</p>
-          </div>
-
-          <div>
-            <span className="text-sm text-muted-foreground">Valor</span>
-            <p className="mt-1 font-medium">{formatAmount(transaction.amount)}</p>
-          </div>
-
-          <div>
-            <span className="text-sm text-muted-foreground">Criada em</span>
-            <p className="mt-1 font-medium">{formatDate(new Date(transaction.createdAt))}</p>
-          </div>
+        <div>
+          <span className="text-sm text-muted-foreground">Criada em</span>
+          <p className="mt-1 font-medium">{formatDate(new Date(transaction.createdAt))}</p>
         </div>
       </div>
     </div>
