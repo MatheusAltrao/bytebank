@@ -10,10 +10,10 @@ export function matchesSearch(transaction: Transaction, search: string): boolean
   const dateStr = formatDate(new Date(transaction.date))
   if (dateStr.includes(term)) return true
 
-  const valueStr = formatAmount(transaction.value).toLowerCase()
+  const valueStr = formatAmount(transaction.amount).toLowerCase()
   if (valueStr.includes(term)) return true
 
-  const rawValue = transaction.value.toString()
+  const rawValue = transaction.amount.toString()
   if (rawValue.includes(term)) return true
 
   return false

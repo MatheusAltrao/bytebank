@@ -3,12 +3,12 @@
 import type { Transaction } from '@/types/transaction'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-const STORAGE_KEY = 'transactions-storage'
+const STORAGE_KEY = 'bytebank-storage'
 
 interface TransactionsContextValue {
   transactions: Transaction[]
-  addTransaction: (transaction: Omit<Transaction, 'id'>) => void
-  updateTransaction: (id: string, transaction: Omit<Transaction, 'id'>) => void
+  addTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt'>) => void
+  updateTransaction: (id: string, transaction: Omit<Transaction, 'id' | 'createdAt'>) => void
   removeTransaction: (id: string) => void
 }
 
@@ -43,12 +43,12 @@ export function TransactionsProvider({ children }: { children: React.ReactNode }
     saveTransactions(transactions)
   }, [transactions])
 
-  const addTransaction = useCallback((transaction: Omit<Transaction, 'id'>) => {
-    setTransactions((prev) => [...prev, { ...transaction, id: crypto.randomUUID() }])
+  const addTransaction = useCallback((transaction: Omit<Transaction, 'id' | 'createdAt'>) => {
+    setTransactions((prev) => [...prev, { ...transaction, id: crypto.randomUUID(), createdAt: new Date().toISOString() }])
   }, [])
 
-  const updateTransaction = useCallback((id: string, transaction: Omit<Transaction, 'id'>) => {
-    setTransactions((prev) => prev.map((t) => (t.id === id ? { ...transaction, id } : t)))
+  const updateTransaction = useCallback((id: string, transaction: Omit<Transaction, 'id' | 'createdAt'>) => {
+    setTransactions((prev) => prev.map((t) => (t.id === id ? { ...transaction, id, createdAt: t.createdAt } : t)))
   }, [])
 
   const removeTransaction = useCallback((id: string) => {

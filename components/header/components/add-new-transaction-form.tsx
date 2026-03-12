@@ -52,6 +52,7 @@ export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFo
   }
 
   function onSubmit(data: TransactionFormData) {
+    console.log('Dados do formulário:', data) // Log para depuração
     const amountNumerico = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
     addTransaction({

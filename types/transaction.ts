@@ -7,6 +7,7 @@ export interface Transaction {
   type: TransactionENUM
   date: string
   amount: number
+  createdAt: string
 }
 
 export const TYPE_LABELS: Record<TransactionENUM, string> = {
