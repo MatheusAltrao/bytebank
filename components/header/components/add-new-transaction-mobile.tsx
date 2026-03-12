@@ -19,7 +19,7 @@ export default function AddNewTransactionMobile() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button>
+        <Button className="justify-start">
           <Plus /> Nova Transação
         </Button>
       </DrawerTrigger>

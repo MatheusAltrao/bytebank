@@ -19,7 +19,7 @@ export default function AddNewTransactionDesktop() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="justify-start">
           <Plus /> Nova Transação
         </Button>
       </DialogTrigger>
