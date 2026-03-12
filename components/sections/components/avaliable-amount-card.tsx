@@ -1,13 +1,13 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
-import { useTransactionsStore } from '@/store/transactions'
 import { Eye, EyeClosed } from 'lucide-react'
 import { useState } from 'react'
 
 export default function AvaliableAmountCard() {
   const [isShowing, setIsShowing] = useState(false)
-  const transactions = useTransactionsStore((state) => state.transactions)
+  const { transactions } = useTransactions()
 
   const toggleAmountVisibility = () => {
     setIsShowing(!isShowing)

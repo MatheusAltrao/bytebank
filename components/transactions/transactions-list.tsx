@@ -13,10 +13,10 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { useTransactionFilters } from '@/hooks/use-transaction-filters'
-import { useTransactionsStore } from '@/store/transactions'
 import { TransactionENUM } from '@/types/transaction'
 import { Trash } from 'lucide-react'
 import { Badge } from '../ui/badge'
@@ -43,7 +43,7 @@ const badgeVariant = (type: TransactionENUM) => {
 }
 
 export default function TransactionsList() {
-  const removeTransaction = useTransactionsStore((state) => state.removeTransaction)
+  const { removeTransaction } = useTransactions()
 
   const {
     search,

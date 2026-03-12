@@ -1,8 +1,8 @@
 'use client'
 
 import { ITEMS_PER_PAGE } from '@/consts/table'
+import { useTransactions } from '@/context/transactions-context'
 import { matchesSearch } from '@/helpers/search'
-import { useTransactionsStore } from '@/store/transactions'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
 
@@ -11,7 +11,7 @@ export function useTransactionFilters() {
   const pathname = usePathname()
   const router = useRouter()
 
-  const transactions = useTransactionsStore((state) => state.transactions)
+  const { transactions } = useTransactions()
 
   const search = searchParams.get('q') ?? ''
   const typeFilter = searchParams.get('tipo') ?? 'todos'

@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useTransactions } from '@/context/transactions-context'
 import { formatCurrency } from '@/helpers/currency'
 import { cn } from '@/lib/utils'
 import { TransactionFormData, transactionSchema } from '@/schema/transaction.schema'
-import { useTransactionsStore } from '@/store/transactions'
 import type { Transaction } from '@/types/transaction'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
@@ -30,7 +30,7 @@ function numberToCurrencyString(value: number): string {
 }
 
 export default function EditTransactionForm({ transaction, onSuccess }: EditTransactionFormProps) {
-  const updateTransaction = useTransactionsStore((state) => state.updateTransaction)
+  const { updateTransaction } = useTransactions()
 
   const {
     register,
