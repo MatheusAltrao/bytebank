@@ -5,9 +5,11 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 const mockTransaction: Transaction = {
   id: '1',
   title: 'Salário',
-  type: 'deposito',
+  type: 'deposit',
   date: new Date('2026-03-01').toISOString(),
-  value: 5000,
+  amount: 5000,
+  createdAt: new Date('2026-02-28').toISOString(),
+  description: 'Recebimento do salário mensal',
 }
 
 const meta: Meta<typeof EditTransaction> = {

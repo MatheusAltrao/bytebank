@@ -5,17 +5,21 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 const mockTransaction: Transaction = {
   id: '1',
   title: 'Salário',
-  type: 'deposito',
+  type: 'deposit',
   date: new Date('2026-03-01').toISOString(),
-  value: 5000,
+  amount: 5000,
+  createdAt: new Date('2026-02-28').toISOString(),
+  description: 'Recebimento do salário mensal',
 }
 
 const mockRetirada: Transaction = {
   id: '2',
   title: 'Aluguel',
-  type: 'retirada',
+  type: 'withdrawal',
   date: new Date('2026-03-05').toISOString(),
-  value: 1200,
+  amount: 1200,
+  createdAt: new Date('2026-03-04').toISOString(),
+  description: 'Pagamento do aluguel',
 }
 
 const meta: Meta<typeof EditTransactionForm> = {
