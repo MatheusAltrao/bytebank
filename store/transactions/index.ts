@@ -1,13 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { INITIAL_TRANSACTIONS } from './initial-transactions'
 import type { TransactionsStore } from './types'
 
 export const useTransactionsStore = create<TransactionsStore>()(
   persist(
     (set) => ({
-      transactions: INITIAL_TRANSACTIONS,
+      transactions: [],
 
       addTransaction: (transaction) =>
         set((state) => ({

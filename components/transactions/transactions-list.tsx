@@ -17,7 +17,7 @@ import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { useTransactionFilters } from '@/hooks/use-transaction-filters'
 import { useTransactionsStore } from '@/store/transactions'
-import type { TransactionType } from '@/types/transaction'
+import { TransactionENUM } from '@/types/transaction'
 import { Trash } from 'lucide-react'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
@@ -26,12 +26,12 @@ import EditTransaction from './components/edit-transaction'
 import Filter from './components/filter'
 import TransactionsPagination from './components/transactions-pagination'
 
-const TYPE_LABELS: Record<TransactionType, string> = {
+const TYPE_LABELS: Record<TransactionENUM, string> = {
   deposito: 'Depósito',
   retirada: 'Retirada',
 }
 
-const badgeVariant = (type: TransactionType) => {
+const badgeVariant = (type: TransactionENUM) => {
   switch (type) {
     case 'deposito':
       return 'default'

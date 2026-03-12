@@ -38,7 +38,7 @@ Aplicação web de controle financeiro pessoal desenvolvida como **Tech Challeng
 ```bash
 # Clone o repositório
 git clone <url-do-repositorio>
-cd projeto-financeiro
+cd bitebacnk
 
 # Instale as dependências
 npm install

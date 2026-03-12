@@ -1,9 +1,9 @@
-export type TransactionType = 'deposito' | 'retirada'
+export type TransactionENUM = 'deposito' | 'retirada'
 
 export interface Transaction {
   id: string
   title: string
-  type: TransactionType
+  type: TransactionENUM
   date: string
   value: number
 }
