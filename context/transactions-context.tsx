@@ -2,6 +2,7 @@
 
 import type { Transaction } from '@/types/transaction'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 
 const STORAGE_KEY = 'bytebank-storage'
 
@@ -45,14 +46,17 @@ export function TransactionsProvider({ children }: { children: React.ReactNode }
 
   const addTransaction = useCallback((transaction: Omit<Transaction, 'id' | 'createdAt'>) => {
     setTransactions((prev) => [...prev, { ...transaction, id: crypto.randomUUID(), createdAt: new Date().toISOString() }])
+    toast.success('Transação adicionada com sucesso!')
   }, [])
 
   const updateTransaction = useCallback((id: string, transaction: Omit<Transaction, 'id' | 'createdAt'>) => {
     setTransactions((prev) => prev.map((t) => (t.id === id ? { ...transaction, id, createdAt: t.createdAt } : t)))
+    toast.success('Transação atualizada com sucesso!')
   }, [])
 
   const removeTransaction = useCallback((id: string) => {
     setTransactions((prev) => prev.filter((t) => t.id !== id))
+    toast.success('Transação removida com sucesso!')
   }, [])
 
   return (

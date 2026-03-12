@@ -32,7 +32,7 @@ export default function TransactionDetailsCard({ transactionId }: TransactionDet
           <EditTransaction transaction={transaction} />
         </div>
 
-        <p className="text-muted-foreground">{transaction.description}</p>
+        <p className="text-muted-foreground wrap-break-word">{transaction.description}</p>
 
         <div className="grid grid-cols-2 gap-4 pt-2">
           <div>

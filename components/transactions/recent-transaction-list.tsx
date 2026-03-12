@@ -1,7 +1,6 @@
 'use client'
 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
@@ -18,7 +17,6 @@ import SeeTransactionButton from './components/see-transaction-buton'
 
 export default function RecentTransactionList() {
   const { hasNoTransactions, hasNoResults, recentsTransactions } = useTransactionFilters()
-  const { removeTransaction } = useTransactions()
 
   return (
     <div className="space-y-4">
