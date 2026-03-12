@@ -13,9 +13,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} antialiased`}>
-        <Header />
-
         <TransactionsProvider>
+          <Header />
           <TooltipProvider>
             <div className="w-full max-w-5xl p-2 mx-auto mt-8 space-y-8 ">{children}</div>
           </TooltipProvider>

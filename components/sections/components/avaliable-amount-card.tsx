@@ -14,7 +14,7 @@ export default function AvaliableAmountCard() {
   }
 
   const amount = transactions.reduce((acc, t) => {
-    return t.type === 'deposito' ? acc + t.value : acc - t.value
+    return t.type === 'deposit' ? acc + t.amount : acc - t.amount
   }, 0)
   const dynamicEyeIcon = isShowing ? <Eye /> : <EyeClosed />
 

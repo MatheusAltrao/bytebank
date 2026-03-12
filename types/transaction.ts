@@ -1,14 +1,15 @@
-export type TransactionENUM = 'deposito' | 'retirada'
+export type TransactionENUM = 'deposit' | 'withdrawal'
 
 export interface Transaction {
   id: string
   title: string
+  description: string
   type: TransactionENUM
   date: string
-  value: number
+  amount: number
 }
 
 export const TYPE_LABELS: Record<TransactionENUM, string> = {
-  deposito: 'Depósito',
-  retirada: 'Retirada',
+  deposit: 'Depósito',
+  withdrawal: 'Retirada',
 }

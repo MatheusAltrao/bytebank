@@ -41,29 +41,31 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      titulo: transaction.title,
-      tipo: transaction.type,
-      data: new Date(transaction.date),
-      valor: numberToCurrencyString(transaction.value),
+      title: transaction.title,
+      description: transaction.description,
+      type: transaction.type,
+      date: new Date(transaction.date),
+      amount: numberToCurrencyString(transaction.amount),
     },
   })
 
-  const valorAtual = useWatch({ control, name: 'valor' })
+  const currentAmount = useWatch({ control, name: 'amount' })
 
-  function handleValorChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleAmountChange(e: React.ChangeEvent<HTMLInputElement>) {
     const raw = e.target.value
     const formatted = formatCurrency(raw)
-    setValue('valor', formatted, { shouldValidate: true })
+    setValue('amount', formatted, { shouldValidate: true })
   }
 
   function onSubmit(data: TransactionFormData) {
-    const valorNumerico = Number(data.valor.replace(/\./g, '').replace(',', '.'))
+    const formattedAmount = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
     updateTransaction(transaction.id, {
-      title: data.titulo,
-      type: data.tipo,
-      date: data.data.toISOString(),
-      value: valorNumerico,
+      title: data.title,
+      description: data.description,
+      type: data.type,
+      date: data.date.toISOString(),
+      amount: formattedAmount,
     })
 
     onSuccess?.()
@@ -77,10 +79,22 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         <Input
           id="edit-titulo"
           placeholder="Ex: Salário, Aluguel..."
-          {...register('titulo')}
-          aria-invalid={!!errors.titulo}
+          {...register('title')}
+          aria-invalid={!!errors.title}
         />
-        {errors.titulo && <span className="text-xs text-destructive">{errors.titulo.message}</span>}
+        {errors.title && <span className="text-xs text-destructive">{errors.title.message}</span>}
+      </div>
+
+      {/* Descrição */}
+      <div className="grid gap-2">
+        <Label htmlFor="edit-description">Descrição</Label>
+        <Input
+          id="edit-description"
+          placeholder="Ex: Salário, Aluguel..."
+          {...register('description')}
+          aria-invalid={!!errors.description}
+        />
+        {errors.description && <span className="text-xs text-destructive">{errors.description.message}</span>}
       </div>
 
       {/* Tipo */}
@@ -88,20 +102,20 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         <Label>Tipo</Label>
         <Controller
           control={control}
-          name="tipo"
+          name="type"
           render={({ field }) => (
             <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="w-full" aria-invalid={!!errors.tipo}>
+              <SelectTrigger className="w-full" aria-invalid={!!errors.type}>
                 <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="deposito">Depósito</SelectItem>
-                <SelectItem value="retirada">Retirada</SelectItem>
+                <SelectItem value="deposit">Depósito</SelectItem>
+                <SelectItem value="withdrawal">Retirada</SelectItem>
               </SelectContent>
             </Select>
           )}
         />
-        {errors.tipo && <span className="text-xs text-destructive">{errors.tipo.message}</span>}
+        {errors.type && <span className="text-xs text-destructive">{errors.type.message}</span>}
       </div>
 
       {/* Data */}
@@ -109,14 +123,14 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         <Label>Data</Label>
         <Controller
           control={control}
-          name="data"
+          name="date"
           render={({ field }) => (
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn('w-full justify-start text-left font-normal', !field.value && 'text-muted-foreground')}
-                  aria-invalid={!!errors.data}
+                  aria-invalid={!!errors.date}
                 >
                   <CalendarIcon className="mr-2 size-4" />
                   {field.value
@@ -132,7 +146,7 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
             </Popover>
           )}
         />
-        {errors.data && <span className="text-xs text-destructive">{errors.data.message}</span>}
+        {errors.date && <span className="text-xs text-destructive">{errors.date.message}</span>}
       </div>
 
       {/* Valor */}
@@ -147,12 +161,12 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
             placeholder="0,00"
             className="pl-9"
             inputMode="numeric"
-            value={valorAtual}
-            onChange={handleValorChange}
-            aria-invalid={!!errors.valor}
+            value={currentAmount}
+            onChange={handleAmountChange}
+            aria-invalid={!!errors.amount}
           />
         </div>
-        {errors.valor && <span className="text-xs text-destructive">{errors.valor.message}</span>}
+        {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
       <Button type="submit" className="w-full">

@@ -2,9 +2,9 @@ import { TransactionENUM } from '@/types/transaction'
 
 export const badgeVariant = (type: TransactionENUM) => {
   switch (type) {
-    case 'deposito':
+    case 'deposit':
       return 'default'
-    case 'retirada':
+    case 'withdrawal':
       return 'destructive'
     default:
       return 'secondary'

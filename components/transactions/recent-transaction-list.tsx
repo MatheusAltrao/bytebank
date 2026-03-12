@@ -65,10 +65,10 @@ export default function RecentTransactionList() {
               <TableCell>
                 <Tooltip>
                   <TooltipTrigger>
-                    <p className="font-medium text-left  truncate w-40">{formatAmount(transaction.value)}</p>
+                    <p className="font-medium text-left  truncate w-40">{formatAmount(transaction.amount)}</p>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="wrap-break-word">{formatAmount(transaction.value)}</p>
+                    <p className="wrap-break-word">{formatAmount(transaction.amount)}</p>
                   </TooltipContent>
                 </Tooltip>
               </TableCell>

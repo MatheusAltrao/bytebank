@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
@@ -46,19 +45,7 @@ export default function TransactionsList() {
   return (
     <div className="space-y-4">
       {/* Filtros */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Filter search={search} onSearchChange={setSearch} />
-        <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Filtrar por tipo" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="todos">Todos</SelectItem>
-            <SelectItem value="deposito">Depósito</SelectItem>
-            <SelectItem value="retirada">Retirada</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <Filter search={search} onSearchChange={setSearch} typeFilter={typeFilter} onTypeFilterChange={setTypeFilter} />
 
       {/* Tabela */}
       <Table>
@@ -91,10 +78,10 @@ export default function TransactionsList() {
               <TableCell>
                 <Tooltip>
                   <TooltipTrigger>
-                    <p className="font-medium text-left  truncate w-40">{formatAmount(transaction.value)}</p>
+                    <p className="font-medium text-left  truncate w-40">{formatAmount(transaction.amount)}</p>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p className="wrap-break-word">{formatAmount(transaction.value)}</p>
+                    <p className="wrap-break-word">{formatAmount(transaction.amount)}</p>
                   </TooltipContent>
                 </Tooltip>
               </TableCell>

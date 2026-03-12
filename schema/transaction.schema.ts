@@ -1,17 +1,18 @@
 import z from 'zod'
 
 export const transactionSchema = z.object({
-  titulo: z
+  title: z
     .string()
     .min(3, 'O título deve ter no mínimo 3 caracteres')
     .max(30, 'O título deve ter no máximo 30 caracteres'),
-  tipo: z.enum(['deposito', 'retirada'], {
+  description: z.string().max(100, 'A descrição deve ter no máximo 100 caracteres'),
+  type: z.enum(['deposit', 'withdrawal'], {
     message: 'Selecione o tipo da transação',
   }),
-  data: z.date({
+  date: z.date({
     message: 'Selecione a data da transação',
   }),
-  valor: z
+  amount: z
     .string()
     .min(1, 'Informe o valor da transação')
     .max(15, 'O valor é muito grande')
