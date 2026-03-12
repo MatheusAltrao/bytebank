@@ -9,7 +9,7 @@
     "lint": "biome check .",
     "format": "biome check --write .",
     "check-types": "tsc --pretty --noEmit",
-    "check-all": "npm run lint && npm run check-types && npm run build",
+    "check-all": "npm run format && npm run lint && npm run check-types && npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
