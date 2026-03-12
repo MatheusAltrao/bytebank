@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
@@ -8,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useTransactions } from '@/context/transactions-context'
 import { formatCurrency } from '@/helpers/currency'
+import { badgeVariant } from '@/helpers/transactions'
 import { cn } from '@/lib/utils'
 import { TransactionFormData, transactionSchema } from '@/schema/transaction.schema'
 import type { Transaction } from '@/types/transaction'
@@ -109,8 +111,12 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
                 <SelectValue placeholder="Selecione o tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="deposit">Depósito</SelectItem>
-                <SelectItem value="withdrawal">Retirada</SelectItem>
+                <SelectItem value="deposit">
+                  <Badge variant={badgeVariant('deposit')}>Depósito</Badge>
+                </SelectItem>
+                <SelectItem value="withdrawal">
+                  <Badge variant={badgeVariant('withdrawal')}>Retirada</Badge>
+                </SelectItem>
               </SelectContent>
             </Select>
           )}
