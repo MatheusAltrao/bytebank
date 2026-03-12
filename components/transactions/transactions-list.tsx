@@ -1,34 +1,20 @@
 'use client'
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
 import { useTransactionFilters } from '@/hooks/use-transaction-filters'
 import { TYPE_LABELS } from '@/types/transaction'
-import { Trash } from 'lucide-react'
 import { Badge } from '../ui/badge'
-import { Button } from '../ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
+import DeleteTransactionButton from './components/delete-transaction-button'
 import EditTransaction from './components/edit-transaction'
 import Filter from './components/filter'
+import SeeTransactionButton from './components/see-transaction-buton'
 import TransactionsPagination from './components/transactions-pagination'
 
 export default function TransactionsList() {
-  const { removeTransaction } = useTransactions()
-
   const {
     search,
     typeFilter,
@@ -87,34 +73,9 @@ export default function TransactionsList() {
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
+                  <SeeTransactionButton transactionId={transaction.id} />
                   <EditTransaction transaction={transaction} />
-                  <AlertDialog>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <AlertDialogTrigger asChild>
-                          <Button size={'icon-lg'} variant={'destructive'}>
-                            <Trash />
-                          </Button>
-                        </AlertDialogTrigger>
-                      </TooltipTrigger>
-                      <TooltipContent>Excluir transação</TooltipContent>
-                    </Tooltip>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Excluir transação</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Tem certeza que deseja excluir a transação{' '}
-                          <strong className="truncate w-40">{transaction.title}</strong>?
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction variant="destructive" onClick={() => removeTransaction(transaction.id)}>
-                          Excluir
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                  <DeleteTransactionButton transaction={transaction} />
                 </div>
               </TableCell>
             </TableRow>
