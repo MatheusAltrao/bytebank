@@ -1,4 +1,4 @@
-import TransactionsList from '@/components/transactions/transactions-list'
+import TransactionsList from '@/components/transactions/my-transaction-list'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const meta: Meta<typeof TransactionsList> = {

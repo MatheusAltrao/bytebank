@@ -14,7 +14,7 @@ import Filter from './components/filter'
 import SeeTransactionButton from './components/see-transaction-buton'
 import TransactionsPagination from './components/transactions-pagination'
 
-export default function TransactionsList() {
+export default function MyTransactionsList() {
   const {
     search,
     typeFilter,

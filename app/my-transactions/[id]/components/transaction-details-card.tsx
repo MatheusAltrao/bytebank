@@ -1,7 +1,7 @@
 'use client'
 
-import BackButton from '@/components/back-button'
 import EditTransaction from '@/components/transactions/components/edit-transaction'
+import BackButton from '@/components/ui/back-button'
 import { Badge } from '@/components/ui/badge'
 import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
