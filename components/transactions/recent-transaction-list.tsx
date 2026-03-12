@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
@@ -19,48 +18,23 @@ import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
 import { useTransactionFilters } from '@/hooks/use-transaction-filters'
 import { TYPE_LABELS } from '@/types/transaction'
-import { Trash } from 'lucide-react'
+import { Eye, Trash } from 'lucide-react'
+import Link from 'next/link'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import EditTransaction from './components/edit-transaction'
-import Filter from './components/filter'
-import TransactionsPagination from './components/transactions-pagination'
 
-export default function TransactionsList() {
+export default function RecentTransactionList() {
+  const { hasNoTransactions, hasNoResults, recentsTransactions } = useTransactionFilters()
   const { removeTransaction } = useTransactions()
-
-  const {
-    search,
-    typeFilter,
-    currentPage,
-    totalPages,
-    paginated,
-    hasNoTransactions,
-    hasNoResults,
-    setSearch,
-    setTypeFilter,
-    setCurrentPage,
-  } = useTransactionFilters()
 
   return (
     <div className="space-y-4">
-      {/* Filtros */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Filter search={search} onSearchChange={setSearch} />
-        <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Filtrar por tipo" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="todos">Todos</SelectItem>
-            <SelectItem value="deposito">Depósito</SelectItem>
-            <SelectItem value="retirada">Retirada</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Tabela */}
+      <header>
+        <h2 className="text-lg font-semibold">Transações Recentes</h2>
+        <p className="text-sm text-muted-foreground">Veja as transações mais recentes realizadas.</p>
+      </header>
       <Table>
         <TableHeader>
           <TableRow>
@@ -72,7 +46,7 @@ export default function TransactionsList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginated.map((transaction) => (
+          {recentsTransactions.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell>
                 <Tooltip>
@@ -140,8 +114,13 @@ export default function TransactionsList() {
         </TableCaption>
       </Table>
 
-      {/* Paginação */}
-      <TransactionsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      <div className="flex items-center justify-center">
+        <Link href={'/my-transactions'}>
+          <Button variant={'outline'} size={'sm'}>
+            <Eye /> Ver Todas as transações
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

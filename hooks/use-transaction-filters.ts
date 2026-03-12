@@ -71,6 +71,12 @@ export function useTransactionFilters() {
   const hasNoTransactions = transactions.length === 0
   const hasNoResults = !hasNoTransactions && filtered.length === 0
 
+  const recentsTransactions = useMemo(() => {
+    return [...transactions]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5)
+  }, [transactions])
+
   return {
     search,
     typeFilter,
@@ -83,5 +89,6 @@ export function useTransactionFilters() {
     setSearch,
     setTypeFilter,
     setCurrentPage,
+    recentsTransactions,
   }
 }

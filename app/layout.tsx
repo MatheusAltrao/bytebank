@@ -1,3 +1,4 @@
+import Header from '@/components/header/header'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { TransactionsProvider } from '@/context/transactions-context'
 import { Inter } from 'next/font/google'
@@ -12,8 +13,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${inter.className} antialiased`}>
+        <Header />
+
         <TransactionsProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <div className="w-full max-w-5xl p-2 mx-auto mt-8 space-y-8 ">{children}</div>
+          </TooltipProvider>
         </TransactionsProvider>
       </body>
     </html>

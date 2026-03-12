@@ -1,15 +1,11 @@
-import Header from '@/components/header/header'
 import HeroSection from '@/components/sections/hero-section'
-import TransactionsList from '@/components/transactions/transactions-list'
+import RecentTransactionList from '@/components/transactions/recent-transaction-list'
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-      <div className="w-full max-w-5xl p-2 mx-auto mt-8 space-y-8 ">
-        <HeroSection />
-        <TransactionsList />
-      </div>
+    <div className="space-y-8">
+      <HeroSection />
+      <RecentTransactionList />
     </div>
   )
 }
