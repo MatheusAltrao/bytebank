@@ -33,62 +33,79 @@ interface UpdateTransactionParams {
   amount?: number
 }
 
-export async function getTransactions(params?: GetTransactionsParams): Promise<TransactionsListResponse> {
-  await delay()
-  const searchParams = new URLSearchParams()
+export async function getTransactions(params?: GetTransactionsParams): Promise<TransactionsListResponse | null> {
+  try {
+    await delay()
+    const searchParams = new URLSearchParams()
 
-  if (params?.q) searchParams.set('q', params.q)
-  if (params?.type && params.type !== 'all') searchParams.set('type', params.type)
-  if (params?.page) searchParams.set('page', String(params.page))
-  if (params?.perPage) searchParams.set('perPage', String(params.perPage))
+    if (params?.q) searchParams.set('q', params.q)
+    if (params?.type && params.type !== 'all') searchParams.set('type', params.type)
+    if (params?.page) searchParams.set('page', String(params.page))
+    if (params?.perPage) searchParams.set('perPage', String(params.perPage))
 
-  const query = searchParams.toString()
-  const url = query ? `${ENDPOINT}?${query}` : ENDPOINT
+    const query = searchParams.toString()
+    const url = query ? `${ENDPOINT}?${query}` : ENDPOINT
 
-  const response = await fetch(url)
+    const response = await fetch(url)
 
-  if (!response.ok) {
-    throw new Error('Erro ao buscar transações')
-  }
-
-  return response.json()
-}
-
-export async function getRecentTransactions(): Promise<RecentTransactionsResponse> {
-  const response = await fetch(`${ENDPOINT}?recent=true`)
-
-  if (!response.ok) {
-    throw new Error('Erro ao buscar transações recentes')
-  }
-  await delay()
-
-  return response.json()
-}
-
-export async function getTransactionById(id: string): Promise<TransactionProps> {
-  await delay()
-  const response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`)
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error('Transação não encontrada')
+    if (!response.ok) {
+      return null
     }
-    throw new Error('Erro ao buscar transação')
-  }
 
-  return response.json()
+    return response.json()
+  } catch (error) {
+    console.log('Error fetching transactions:', error)
+    return null
+  }
+}
+
+export async function getRecentTransactions(): Promise<RecentTransactionsResponse | null> {
+  try {
+    await delay()
+    const response = await fetch(`${ENDPOINT}?recent=true`)
+
+    if (!response.ok) {
+      return null
+    }
+
+    return response.json()
+  } catch (error) {
+    console.log('Error fetching recent transactions:', error)
+    return null
+  }
+}
+
+export async function getTransactionById(id: string): Promise<TransactionProps | null> {
+  try {
+    await delay()
+    const response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`)
+
+    if (!response.ok) {
+      return null
+    }
+
+    return response.json()
+  } catch (error) {
+    console.log('Error fetching transaction by id:', error)
+    return null
+  }
 }
 
 export async function getBalance(): Promise<number> {
-  await delay()
-  const response = await fetch(ENDPOINT)
+  try {
+    await delay()
+    const response = await fetch(ENDPOINT)
 
-  if (!response.ok) {
-    throw new Error('Erro ao buscar saldo')
+    if (!response.ok) {
+      return 0
+    }
+
+    const data: TransactionsListResponse = await response.json()
+    return data.balance
+  } catch (error) {
+    console.log('Error fetching balance:', error)
+    return 0
   }
-
-  const data: TransactionsListResponse = await response.json()
-  return data.balance
 }
 
 export async function createTransaction(params: CreateTransactionParams): Promise<TransactionProps> {
