@@ -2,6 +2,7 @@ import Header from '@/components/header/header'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { TransactionsProvider } from '@/context/transactions-context'
 import { Inter } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] })
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} antialiased`}>
         <Toaster />
+        <NextTopLoader color="#5ea500" />
         <TransactionsProvider>
           <Header />
           <TooltipProvider>
