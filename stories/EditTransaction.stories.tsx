@@ -1,5 +1,5 @@
 import EditTransaction from '@/components/transactions/components/edit-transaction'
-import type { Transaction } from '@/types/transaction'
+import type { Transaction } from '@/types/transaction.types'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const mockTransaction: Transaction = {

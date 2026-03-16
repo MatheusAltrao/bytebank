@@ -1,7 +1,7 @@
 'use client'
 
 import { useIsMobile } from '@/hooks/use-mobile'
-import type { Transaction } from '@/types/transaction'
+import type { Transaction } from '@/types/transaction.types'
 import EditTransactionDesktop from './edit-transaction-desktop'
 import EditTransactionMobile from './edit-transaction-mobile'
 

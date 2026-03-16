@@ -1,4 +1,4 @@
-import { Transaction } from '@/types/transaction'
+import { Transaction } from '@/types/transaction.types'
 import { formatAmount } from './amount'
 import { formatDate } from './date'
 

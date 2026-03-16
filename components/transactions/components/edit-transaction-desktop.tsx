@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import type { Transaction } from '@/types/transaction'
+import type { Transaction } from '@/types/transaction.types'
 import { Pen } from 'lucide-react'
 import { useState } from 'react'
 import EditTransactionForm from './edit-transaction-form'

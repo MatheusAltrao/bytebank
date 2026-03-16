@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useTransactions } from '@/context/transactions-context'
-import { Transaction } from '@/types/transaction'
+import { Transaction } from '@/types/transaction.types'
 import { Trash } from 'lucide-react'
 
 interface DeleteTransactionButtonProps {

@@ -1,4 +1,4 @@
-import { TransactionENUM } from '@/types/transaction'
+import { TransactionENUM } from '@/types/transaction.types'
 
 export const badgeVariant = (type: TransactionENUM) => {
   switch (type) {

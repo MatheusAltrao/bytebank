@@ -6,7 +6,7 @@ import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { TYPE_LABELS } from '@/types/transaction'
+import { TYPE_LABELS } from '@/types/transaction.types'
 import { redirect } from 'next/navigation'
 
 interface TransactionDetailsCardProps {
