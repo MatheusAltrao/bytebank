@@ -30,8 +30,8 @@ export default function RecentTransactionListLoading() {
   return (
     <div className="space-y-4">
       <header>
-        <div className="h-6 w-48 animate-pulse rounded bg-muted" />
-        <div className="mt-2 h-4 w-72 animate-pulse rounded bg-muted" />
+        <h2 className="text-lg font-semibold">Transações Recentes</h2>
+        <p className="text-sm text-muted-foreground">Veja as transações mais recentes realizadas.</p>
       </header>
       <Table>
         <TableHeader>

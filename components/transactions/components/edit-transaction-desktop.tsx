@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import type { Transaction } from '@/types/transaction.types'
+import type { TransactionProps } from '@/types/transaction.types'
 import { Pen } from 'lucide-react'
 import { useState } from 'react'
 import EditTransactionForm from './edit-transaction-form'
 
 interface EditTransactionDesktopProps {
-  transaction: Transaction
+  transaction: TransactionProps
 }
 
 export default function EditTransactionDesktop({ transaction }: EditTransactionDesktopProps) {

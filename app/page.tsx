@@ -1,14 +1,15 @@
 import HeroSection from '@/components/sections/hero-section'
-import RecentTransactionList from '@/components/transactions/recent-transaction-list'
-import { getRecentTransactions } from './http/transactions.http'
+import RecentTransactionListSkeleton from '@/components/transactions/components/skeleton/recent-transaction-list-skeleton'
+import RecentTransactionListServer from '@/components/transactions/recent-transaction-list-server'
+import { Suspense } from 'react'
 
-export default async function Home() {
-  const recentTransactionsList = await getRecentTransactions()
-
+export default function Home() {
   return (
     <div className="space-y-8">
       <HeroSection />
-      <RecentTransactionList transactions={recentTransactionsList.data} />
+      <Suspense fallback={<RecentTransactionListSkeleton />}>
+        <RecentTransactionListServer />
+      </Suspense>
     </div>
   )
 }

@@ -47,7 +47,7 @@ export default function MyTransactionsListLoading() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <SkeletonRow key={i} />
           ))}
         </TableBody>
