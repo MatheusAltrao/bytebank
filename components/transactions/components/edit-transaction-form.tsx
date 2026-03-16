@@ -1,6 +1,7 @@
 'use client'
 
 import { updateTransaction } from '@/app/http/transactions.http'
+import { AlertDialogCancel, AlertDialogFooter } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -26,6 +27,7 @@ import toast from 'react-hot-toast'
 interface EditTransactionFormProps {
   transaction: TransactionProps
   onSuccess?: () => void
+  onPendingChange?: (pending: boolean) => void
 }
 
 function numberToCurrencyString(value: number): string {
@@ -35,9 +37,11 @@ function numberToCurrencyString(value: number): string {
   return `${intFormatted},${decPart}`
 }
 
-export default function EditTransactionForm({ transaction, onSuccess }: EditTransactionFormProps) {
+export default function EditTransactionForm({ transaction, onSuccess, onPendingChange }: EditTransactionFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+
+  onPendingChange?.(isPending)
 
   const {
     register,
@@ -190,9 +194,13 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
-      <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending && <Loading />} Salvar alterações
-      </Button>
+      <AlertDialogFooter>
+        <Button type="submit" disabled={isPending}>
+          {isPending && <Loading />} Salvar alterações
+        </Button>
+
+        <AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
+      </AlertDialogFooter>
     </form>
   )
 }
