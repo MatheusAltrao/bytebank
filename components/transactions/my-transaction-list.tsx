@@ -4,8 +4,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { useTransactionFilters } from '@/hooks/use-transaction-filters'
+import type { TransactionsListResponse } from '@/types/transaction.types'
 import { TYPE_LABELS } from '@/types/transaction.types'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Badge } from '../ui/badge'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import DeleteTransactionButton from './components/delete-transaction-button'
@@ -14,26 +15,66 @@ import Filter from './components/filter'
 import SeeTransactionButton from './components/see-transaction-buton'
 import TransactionsPagination from './components/transactions-pagination'
 
-export default function MyTransactionsList() {
-  const {
-    search,
-    typeFilter,
-    currentPage,
-    totalPages,
-    paginated,
-    hasNoTransactions,
-    hasNoResults,
-    setSearch,
-    setTypeFilter,
-    setCurrentPage,
-  } = useTransactionFilters()
+interface MyTransactionsListProps {
+  transactions: TransactionsListResponse
+}
+
+export default function MyTransactionsList({ transactions }: MyTransactionsListProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const search = searchParams.get('q') ?? ''
+  const typeFilter = searchParams.get('type') ?? 'all'
+  const currentPage = Number(searchParams.get('page') ?? '1')
+
+  function updateParams(updates: Record<string, string | null>) {
+    const params = new URLSearchParams()
+    const current: Record<string, string | null> = {
+      q: search || null,
+      type: typeFilter === 'all' ? null : typeFilter,
+      page: currentPage > 1 ? String(currentPage) : null,
+    }
+
+    for (const [key, value] of Object.entries({ ...current, ...updates })) {
+      if (value !== null && value !== '') {
+        params.set(key, value)
+      }
+    }
+
+    const query = params.toString()
+    router.push(`${pathname}${query ? `?${query}` : ''}`, { scroll: false })
+  }
+
+  function handleSearchChange(value: string) {
+    updateParams({ q: value || null, page: null })
+  }
+
+  function handleTypeFilterChange(value: string) {
+    updateParams({ type: value === 'all' ? null : value, page: null })
+  }
+
+  function handlePageChange(page: number) {
+    updateParams({ page: page <= 1 ? null : String(page) })
+  }
+
+  const data = transactions.data
+  const totalPages = transactions.totalPages
+  const total = transactions.total
+  const safePage = transactions.currentPage
+
+  const hasNoTransactions = total === 0 && !search && typeFilter === 'all'
+  const hasNoResults = total === 0 && (!!search || typeFilter !== 'all')
 
   return (
     <div className="space-y-4">
-      {/* Filtros */}
-      <Filter search={search} onSearchChange={setSearch} typeFilter={typeFilter} onTypeFilterChange={setTypeFilter} />
+      <Filter
+        search={search}
+        onSearchChange={handleSearchChange}
+        typeFilter={typeFilter}
+        onTypeFilterChange={handleTypeFilterChange}
+      />
 
-      {/* Tabela */}
       <Table>
         <TableHeader>
           <TableRow>
@@ -45,7 +86,7 @@ export default function MyTransactionsList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {paginated.map((transaction) => (
+          {data.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell>
                 <Tooltip>
@@ -88,8 +129,7 @@ export default function MyTransactionsList() {
         </TableCaption>
       </Table>
 
-      {/* Paginação */}
-      <TransactionsPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      <TransactionsPagination currentPage={safePage} totalPages={totalPages} onPageChange={handlePageChange} />
     </div>
   )
 }

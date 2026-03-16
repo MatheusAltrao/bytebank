@@ -1,5 +1,6 @@
 'use client'
 
+import { updateTransaction } from '@/app/http/transactions.http'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -7,7 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useTransactions } from '@/context/transactions-context'
 import { formatCurrency } from '@/helpers/currency'
 import { badgeVariant } from '@/helpers/transactions'
 import { cn } from '@/lib/utils'
@@ -17,7 +17,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm, useWatch } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 interface EditTransactionFormProps {
   transaction: Transaction
@@ -32,14 +34,14 @@ function numberToCurrencyString(value: number): string {
 }
 
 export default function EditTransactionForm({ transaction, onSuccess }: EditTransactionFormProps) {
-  const { updateTransaction } = useTransactions()
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -59,10 +61,11 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
     setValue('amount', formatted, { shouldValidate: true })
   }
 
-  function onSubmit(data: TransactionFormData) {
+  async function onSubmit(data: TransactionFormData) {
     const formattedAmount = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
-    updateTransaction(transaction.id, {
+    await updateTransaction({
+      id: transaction.id,
       title: data.title,
       description: data.description,
       type: data.type,
@@ -70,6 +73,8 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
       amount: formattedAmount,
     })
 
+    toast.success('Transação atualizada com sucesso!')
+    router.refresh()
     onSuccess?.()
   }
 
@@ -175,8 +180,8 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
-      <Button type="submit" className="w-full">
-        Salvar alterações
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? 'Salvando...' : 'Salvar alterações'}
       </Button>
     </form>
   )

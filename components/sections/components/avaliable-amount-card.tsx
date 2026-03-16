@@ -1,24 +1,24 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
-import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { Eye, EyeClosed } from 'lucide-react'
+import { useState } from 'react'
 
-export default function AvaliableAmountCard() {
-  const { transactions, isShowingAmount, toggleAmountVisibility } = useTransactions()
+interface AvaliableAmountCardProps {
+  balance: number
+}
 
-  const amount = transactions.reduce((acc, t) => {
-    return t.type === 'deposit' ? acc + t.amount : acc - t.amount
-  }, 0)
-
+export default function AvaliableAmountCard({ balance }: AvaliableAmountCardProps) {
+  const [isShowingAmount, setIsShowingAmount] = useState(false)
   const dynamicEyeIcon = isShowingAmount ? <Eye /> : <EyeClosed />
-  const dynamicAmount = isShowingAmount ? formatAmount(amount) : '*******'
+  const dynamicAmount = isShowingAmount ? formatAmount(balance) : '*******'
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-1 ">
         <span className="text-xl font-bold">{dynamicAmount}</span>
-        <Button variant={'outline'} className="h-8 w-8 rounded" onClick={toggleAmountVisibility}>
+        <Button variant={'outline'} className="h-8 w-8 rounded" onClick={() => setIsShowingAmount(!isShowingAmount)}>
           {dynamicEyeIcon}
         </Button>
       </div>

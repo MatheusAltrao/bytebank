@@ -1,5 +1,6 @@
 'use client'
 
+import { createTransaction } from '@/app/http/transactions.http'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -7,7 +8,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useTransactions } from '@/context/transactions-context'
 import { formatCurrency } from '@/helpers/currency'
 import { badgeVariant } from '@/helpers/transactions'
 import { cn } from '@/lib/utils'
@@ -16,14 +16,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { Controller, useForm, useWatch } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 interface AddNewTransactionFormProps {
   onSuccess?: () => void
 }
 
 export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFormProps) {
-  const { addTransaction } = useTransactions()
+  const router = useRouter()
 
   const {
     register,
@@ -31,7 +33,7 @@ export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFo
     control,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -51,11 +53,10 @@ export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFo
     setValue('amount', formatted, { shouldValidate: true })
   }
 
-  function onSubmit(data: TransactionFormData) {
-    console.log('Dados do formulário:', data) // Log para depuração
+  async function onSubmit(data: TransactionFormData) {
     const amountNumerico = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
-    addTransaction({
+    await createTransaction({
       title: data.title,
       type: data.type,
       date: data.date.toISOString(),
@@ -63,7 +64,9 @@ export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFo
       description: data.description,
     })
 
+    toast.success('Transação adicionada com sucesso!')
     reset()
+    router.refresh()
     onSuccess?.()
   }
 
@@ -164,8 +167,8 @@ export default function AddNewTransactionForm({ onSuccess }: AddNewTransactionFo
         {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
-      <Button type="submit" className="w-full">
-        Adicionar transação
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? 'Adicionando...' : 'Adicionar transação'}
       </Button>
     </form>
   )

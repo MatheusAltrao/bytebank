@@ -1,24 +1,46 @@
 'use client'
 
+import { getTransactionById } from '@/app/http/transactions.http'
 import EditTransaction from '@/components/transactions/components/edit-transaction'
 import { Badge } from '@/components/ui/badge'
-import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { TYPE_LABELS } from '@/types/transaction.types'
+import { TYPE_LABELS, type Transaction } from '@/types/transaction.types'
 import { redirect } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 interface TransactionDetailsCardProps {
   transactionId: string
 }
 
 export default function TransactionDetailsCard({ transactionId }: TransactionDetailsCardProps) {
-  const { transactions } = useTransactions()
-  const transaction = transactions.find((t) => t.id === transactionId)
+  const [transaction, setTransaction] = useState<Transaction | null>(null)
+  const [notFound, setNotFound] = useState(false)
+
+  useEffect(() => {
+    getTransactionById(transactionId)
+      .then(setTransaction)
+      .catch(() => setNotFound(true))
+  }, [transactionId])
+
+  if (notFound) {
+    redirect('/')
+  }
 
   if (!transaction) {
-    redirect('/')
+    return (
+      <div className="rounded-xl border p-6 space-y-4 animate-pulse">
+        <div className="h-6 bg-muted rounded w-1/3" />
+        <div className="h-4 bg-muted rounded w-2/3" />
+        <div className="grid grid-cols-2 gap-4 pt-2">
+          <div className="h-10 bg-muted rounded" />
+          <div className="h-10 bg-muted rounded" />
+          <div className="h-10 bg-muted rounded" />
+          <div className="h-10 bg-muted rounded" />
+        </div>
+      </div>
+    )
   }
 
   return (

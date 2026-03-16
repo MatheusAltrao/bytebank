@@ -4,7 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { useTransactionFilters } from '@/hooks/use-transaction-filters'
+import type { Transaction } from '@/types/transaction.types'
 import { TYPE_LABELS } from '@/types/transaction.types'
 import { Eye } from 'lucide-react'
 import Link from 'next/link'
@@ -15,8 +15,12 @@ import DeleteTransactionButton from './components/delete-transaction-button'
 import EditTransaction from './components/edit-transaction'
 import SeeTransactionButton from './components/see-transaction-buton'
 
-export default function RecentTransactionList() {
-  const { hasNoTransactions, hasNoResults, recentsTransactions } = useTransactionFilters()
+interface RecentTransactionListProps {
+  transactions: Transaction[]
+}
+
+export default function RecentTransactionList({ transactions }: RecentTransactionListProps) {
+  const hasNoTransactions = transactions.length === 0
 
   return (
     <div className="space-y-4">
@@ -35,7 +39,7 @@ export default function RecentTransactionList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {recentsTransactions.map((transaction) => (
+          {transactions.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell>
                 <Tooltip>
@@ -72,10 +76,7 @@ export default function RecentTransactionList() {
           ))}
         </TableBody>
 
-        <TableCaption>
-          {hasNoTransactions && 'Nenhuma transação cadastrada.'}
-          {hasNoResults && 'Nenhuma transação encontrada.'}
-        </TableCaption>
+        <TableCaption>{hasNoTransactions && 'Nenhuma transação cadastrada.'}</TableCaption>
       </Table>
 
       <div className="flex items-center justify-center">

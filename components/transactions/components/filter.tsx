@@ -28,13 +28,13 @@ export default function Filter({ search, onSearchChange, typeFilter, onTypeFilte
           <SelectValue placeholder="Filtrar por tipo" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="todos">
+          <SelectItem value="all">
             <Badge variant={'secondary'}> Todos </Badge>
           </SelectItem>
-          <SelectItem value="deposito">
+          <SelectItem value="deposit">
             <Badge variant={'default'}> Depósito </Badge>
           </SelectItem>
-          <SelectItem value="retirada">
+          <SelectItem value="withdrawal">
             <Badge variant={'destructive'}> Retirada </Badge>
           </SelectItem>
         </SelectContent>
