@@ -1,4 +1,4 @@
-import AddNewTransaction from '@/components/header/components/add-new-transaction'
+import AddNewTransaction from '@/components/header/components/add-new-transactionArea'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
 const meta: Meta<typeof AddNewTransaction> = {

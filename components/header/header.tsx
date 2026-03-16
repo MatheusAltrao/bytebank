@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import LogoBytebank from '../../assets/logo-bytebank.svg'
-import AddNewTransaction from './components/add-new-transaction'
+import AddNewTransaction from './components/add-new-transactionArea'
 import Menu from './components/menu'
 
 export default function Header() {

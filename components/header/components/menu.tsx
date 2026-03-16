@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Eye, Home, MenuIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import AddNewTransaction from './add-new-transaction'
+import AddNewTransaction from './add-new-transactionArea'
 
 export default function Menu() {
   const [open, setOpen] = useState(false)

@@ -1,5 +1,6 @@
 'use client'
 
+import { useIsMounted } from '@/hooks/use-is-mounted'
 import type { Transaction } from '@/types/transaction'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -34,6 +35,9 @@ function saveTransactions(transactions: Transaction[]) {
 let initialRender = true
 
 export function TransactionsProvider({ children }: { children: React.ReactNode }) {
+   const isMounted = useIsMounted()
+
+
   const [transactions, setTransactions] = useState<Transaction[]>(loadTransactions)
 
   useEffect(() => {
@@ -58,6 +62,8 @@ export function TransactionsProvider({ children }: { children: React.ReactNode }
     setTransactions((prev) => prev.filter((t) => t.id !== id))
     toast.success('Transação removida com sucesso!')
   }, [])
+
+    if (!isMounted) return null
 
   return (
     <TransactionsContext.Provider
