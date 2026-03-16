@@ -116,7 +116,7 @@ export default function MyTransactionsList({ transactions }: MyTransactionsListP
                 <div className="flex items-center justify-end gap-1">
                   <SeeTransactionButton transactionId={transaction.id} />
                   <EditTransaction transaction={transaction} />
-                  <DeleteTransactionButton transaction={transaction} />
+                  <DeleteTransactionButton transactionId={transaction.id} />
                 </div>
               </TableCell>
             </TableRow>

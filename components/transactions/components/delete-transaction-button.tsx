@@ -13,17 +13,16 @@ import {
 import { Button } from '@/components/ui/button'
 import Loading from '@/components/ui/loading'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Transaction } from '@/types/transaction.types'
 import { Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import toast from 'react-hot-toast'
 
 interface DeleteTransactionButtonProps {
-  transaction: Transaction
+  transactionId: string
 }
 
-export default function DeleteTransactionButton({ transaction }: DeleteTransactionButtonProps) {
+export default function DeleteTransactionButton({ transactionId }: DeleteTransactionButtonProps) {
   const [open, setIsOpen] = useState(false)
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
@@ -31,7 +30,7 @@ export default function DeleteTransactionButton({ transaction }: DeleteTransacti
   async function handleDelete() {
     startTransition(async () => {
       try {
-        await deleteTransaction(transaction.id)
+        await deleteTransaction(transactionId)
         setIsOpen(false)
         toast.success('Transação removida com sucesso!')
         router.refresh()
@@ -58,9 +57,7 @@ export default function DeleteTransactionButton({ transaction }: DeleteTransacti
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Excluir transação</AlertDialogTitle>
-          <AlertDialogDescription>
-            Tem certeza que deseja excluir a transação <strong className="truncate w-40">{transaction.title}</strong>?
-          </AlertDialogDescription>
+          <AlertDialogDescription>Tem certeza que deseja excluir a transação ?</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending} onClick={() => setIsOpen(false)}>

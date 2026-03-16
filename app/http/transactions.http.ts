@@ -1,8 +1,8 @@
 import { delay } from '@/helpers/delay'
 import type {
   RecentTransactionsResponse,
-  Transaction,
   TransactionENUM,
+  TransactionProps,
   TransactionsListResponse,
 } from '@/types/transaction.types'
 
@@ -64,7 +64,7 @@ export async function getRecentTransactions(): Promise<RecentTransactionsRespons
   return response.json()
 }
 
-export async function getTransactionById(id: string): Promise<Transaction> {
+export async function getTransactionById(id: string): Promise<TransactionProps> {
   await delay()
   const response = await fetch(`${BASE_URL}?id=${encodeURIComponent(id)}`)
 
@@ -90,7 +90,7 @@ export async function getBalance(): Promise<number> {
   return data.balance
 }
 
-export async function createTransaction(params: CreateTransactionParams): Promise<Transaction> {
+export async function createTransaction(params: CreateTransactionParams): Promise<TransactionProps> {
   await delay()
   const response = await fetch(BASE_URL, {
     method: 'POST',
@@ -105,7 +105,7 @@ export async function createTransaction(params: CreateTransactionParams): Promis
   return response.json()
 }
 
-export async function updateTransaction(params: UpdateTransactionParams): Promise<Transaction> {
+export async function updateTransaction(params: UpdateTransactionParams): Promise<TransactionProps> {
   await delay()
   const response = await fetch(BASE_URL, {
     method: 'PATCH',
@@ -123,7 +123,7 @@ export async function updateTransaction(params: UpdateTransactionParams): Promis
   return response.json()
 }
 
-export async function deleteTransaction(id: string): Promise<Transaction> {
+export async function deleteTransaction(id: string): Promise<TransactionProps> {
   await delay()
   const response = await fetch(`${BASE_URL}?id=${encodeURIComponent(id)}`, {
     method: 'DELETE',

@@ -1,6 +1,6 @@
 export type TransactionENUM = 'deposit' | 'withdrawal'
 
-export interface Transaction {
+export interface TransactionProps {
   id: string
   title: string
   description: string
@@ -16,7 +16,7 @@ export const TYPE_LABELS: Record<TransactionENUM, string> = {
 }
 
 export interface TransactionsListResponse {
-  data: Transaction[]
+  data: TransactionProps[]
   total: number
   totalPages: number
   currentPage: number
@@ -25,6 +25,6 @@ export interface TransactionsListResponse {
 }
 
 export interface RecentTransactionsResponse {
-  data: Transaction[]
+  data: TransactionProps[]
   total: number
 }

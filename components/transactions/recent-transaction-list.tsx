@@ -4,7 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import type { Transaction } from '@/types/transaction.types'
+import type { TransactionProps } from '@/types/transaction.types'
 import { TYPE_LABELS } from '@/types/transaction.types'
 import { Eye } from 'lucide-react'
 import Link from 'next/link'
@@ -16,7 +16,7 @@ import EditTransaction from './components/edit-transaction'
 import SeeTransactionButton from './components/see-transaction-buton'
 
 interface RecentTransactionListProps {
-  transactions: Transaction[]
+  transactions: TransactionProps[]
 }
 
 export default function RecentTransactionList({ transactions }: RecentTransactionListProps) {
@@ -69,7 +69,7 @@ export default function RecentTransactionList({ transactions }: RecentTransactio
                 <div className="flex items-center justify-end gap-1">
                   <SeeTransactionButton transactionId={transaction.id} />
                   <EditTransaction transaction={transaction} />
-                  <DeleteTransactionButton transaction={transaction} />
+                  <DeleteTransactionButton transactionId={transaction.id} />
                 </div>
               </TableCell>
             </TableRow>

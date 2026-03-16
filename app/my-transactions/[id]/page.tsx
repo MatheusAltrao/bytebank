@@ -1,3 +1,4 @@
+import { getTransactionById } from '@/app/http/transactions.http'
 import BackButton from '@/components/ui/back-button'
 import TransactionDetailsCard from './components/transaction-details-card'
 
@@ -7,10 +8,12 @@ interface TransactionByIdPageProps {
 
 export default async function TransactionByIdPage({ params }: TransactionByIdPageProps) {
   const { id } = await params
+
+  const transactionById = await getTransactionById(id)
   return (
     <div className="space-y-6">
       <BackButton />
-      <TransactionDetailsCard transactionId={id} />
+      <TransactionDetailsCard transaction={transactionById} />
     </div>
   )
 }

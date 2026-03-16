@@ -1,48 +1,17 @@
 'use client'
 
-import { getTransactionById } from '@/app/http/transactions.http'
 import EditTransaction from '@/components/transactions/components/edit-transaction'
 import { Badge } from '@/components/ui/badge'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { TYPE_LABELS, type Transaction } from '@/types/transaction.types'
-import { redirect } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { TransactionProps, TYPE_LABELS } from '@/types/transaction.types'
 
 interface TransactionDetailsCardProps {
-  transactionId: string
+  transaction: TransactionProps
 }
 
-export default function TransactionDetailsCard({ transactionId }: TransactionDetailsCardProps) {
-  const [transaction, setTransaction] = useState<Transaction | null>(null)
-  const [notFound, setNotFound] = useState(false)
-
-  useEffect(() => {
-    getTransactionById(transactionId)
-      .then(setTransaction)
-      .catch(() => setNotFound(true))
-  }, [transactionId])
-
-  if (notFound) {
-    redirect('/')
-  }
-
-  if (!transaction) {
-    return (
-      <div className="rounded-xl border p-6 space-y-4 animate-pulse">
-        <div className="h-6 bg-muted rounded w-1/3" />
-        <div className="h-4 bg-muted rounded w-2/3" />
-        <div className="grid grid-cols-2 gap-4 pt-2">
-          <div className="h-10 bg-muted rounded" />
-          <div className="h-10 bg-muted rounded" />
-          <div className="h-10 bg-muted rounded" />
-          <div className="h-10 bg-muted rounded" />
-        </div>
-      </div>
-    )
-  }
-
+export default function TransactionDetailsCard({ transaction }: TransactionDetailsCardProps) {
   return (
     <div className="rounded-xl border p-6 space-y-4">
       <div className="flex items-center justify-between">

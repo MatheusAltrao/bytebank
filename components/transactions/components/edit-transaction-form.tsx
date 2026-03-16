@@ -6,23 +6,25 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import Loading from '@/components/ui/loading'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { formatCurrency } from '@/helpers/currency'
 import { badgeVariant } from '@/helpers/transactions'
 import { cn } from '@/lib/utils'
 import { TransactionFormData, transactionSchema } from '@/schema/transaction.schema'
-import type { Transaction } from '@/types/transaction.types'
+import type { TransactionProps } from '@/types/transaction.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTransition } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 interface EditTransactionFormProps {
-  transaction: Transaction
+  transaction: TransactionProps
   onSuccess?: () => void
 }
 
@@ -35,13 +37,14 @@ function numberToCurrencyString(value: number): string {
 
 export default function EditTransactionForm({ transaction, onSuccess }: EditTransactionFormProps) {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
 
   const {
     register,
     handleSubmit,
     control,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -61,21 +64,28 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
     setValue('amount', formatted, { shouldValidate: true })
   }
 
-  async function onSubmit(data: TransactionFormData) {
-    const formattedAmount = Number(data.amount.replace(/\./g, '').replace(',', '.'))
+  function onSubmit(data: TransactionFormData) {
+    startTransition(async () => {
+      try {
+        const formattedAmount = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
-    await updateTransaction({
-      id: transaction.id,
-      title: data.title,
-      description: data.description,
-      type: data.type,
-      date: data.date.toISOString(),
-      amount: formattedAmount,
+        await updateTransaction({
+          id: transaction.id,
+          title: data.title,
+          description: data.description,
+          type: data.type,
+          date: data.date.toISOString(),
+          amount: formattedAmount,
+        })
+
+        toast.success('Transação atualizada com sucesso!')
+        onSuccess?.()
+        router.refresh()
+      } catch (error) {
+        console.log('Error updating transaction:', error)
+        toast.error('Ocorreu um erro ao atualizar a transação. Tente novamente.')
+      }
     })
-
-    toast.success('Transação atualizada com sucesso!')
-    router.refresh()
-    onSuccess?.()
   }
 
   return (
@@ -180,8 +190,8 @@ export default function EditTransactionForm({ transaction, onSuccess }: EditTran
         {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? 'Salvando...' : 'Salvar alterações'}
+      <Button type="submit" className="w-full" disabled={isPending}>
+        {isPending && <Loading />} Salvar alterações
       </Button>
     </form>
   )

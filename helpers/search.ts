@@ -1,8 +1,8 @@
-import { Transaction } from '@/types/transaction.types'
+import { TransactionProps } from '@/types/transaction.types'
 import { formatAmount } from './amount'
 import { formatDate } from './date'
 
-export function matchesSearch(transaction: Transaction, search: string): boolean {
+export function matchesSearch(transaction: TransactionProps, search: string): boolean {
   const term = search.toLowerCase()
 
   if (transaction.title.toLowerCase().includes(term)) return true

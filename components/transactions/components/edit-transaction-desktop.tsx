@@ -1,14 +1,14 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { Transaction } from '@/types/transaction.types'
 import { Pen } from 'lucide-react'
@@ -23,24 +23,26 @@ export default function EditTransactionDesktop({ transaction }: EditTransactionD
   const [open, setOpen] = useState(false)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <DialogTrigger asChild>
+          <AlertDialogTrigger asChild>
             <Button size={'icon-lg'} variant={'warning'}>
               <Pen />
             </Button>
-          </DialogTrigger>
+          </AlertDialogTrigger>
         </TooltipTrigger>
         <TooltipContent>Editar transação</TooltipContent>
       </Tooltip>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Editar transação</DialogTitle>
-          <DialogDescription>Altere os dados da transação e clique em salvar para atualizar.</DialogDescription>
-        </DialogHeader>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Editar transação</AlertDialogTitle>
+          <AlertDialogDescription>
+            Altere os dados da transação e clique em salvar para atualizar.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <EditTransactionForm transaction={transaction} onSuccess={() => setOpen(false)} />
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
