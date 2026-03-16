@@ -6,7 +6,7 @@ import Menu from './components/menu'
 
 export default function Header() {
   return (
-    <header className="w-full border-b">
+    <header className="w-full border-b h-14">
       <div className="p-2 w-full max-w-5xl mx-auto flex items-center justify-between ">
         <Link href={'/'}>
           <Image src={LogoBytebank} alt="Logo Bytebank" className="h-6 w-full object-contain" height={40} width={180} />

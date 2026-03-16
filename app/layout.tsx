@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} antialiased`} suppressHydrationWarning={true}>
+      <body className={`${inter.className} antialiased`}>
         <Toaster />
         <TransactionsProvider>
           <Header />

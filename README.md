@@ -43,103 +43,119 @@
 ### Pré-requisitos
 
 - [Node.js](https://nodejs.org/) >= 18
-- npm
+
+# 💰 ByteBank - Controle Financeiro
+
+Aplicação web de controle financeiro pessoal desenvolvida como **Tech Challenge** da FIAP. Permite gerenciar transações de depósito e retirada, com filtros, paginação, edição, exclusão e persistência local.
+
+[Acesse o ByteBank Deploy](https://bytebank-nu.vercel.app/)
+
+## ✨ Funcionalidades
+
+- **Adicionar transação** — formulário validado (título, tipo, data via calendário e valor em R$)
+- **Editar transação** — altere qualquer transação existente com dados pré-preenchidos
+- **Excluir transação** — remova transações da lista
+- **Saldo dinâmico** — cálculo automático (depósitos − retiradas) e opção de ocultar valor
+- **Filtros** — busca por texto (título, data, valor) e filtro por tipo (Depósito/Retirada)
+- **Paginação** — navegação entre páginas (5 itens por página)
+- **Persistência** — dados salvos no localStorage (Zustand)
+- **Storybook** — documentação visual e interativa dos componentes
+
+## 🛠️ Tecnologias & Bibliotecas
+
+| Categoria      | Tecnologias principais                                 |
+|---------------|-------------------------------------------------------|
+| Framework     | Next.js 16, React 19, TypeScript                      |
+| Estilização   | Tailwind CSS 4, shadcn/ui, Radix UI                   |
+| Formulários   | React Hook Form, Zod                                  |
+| Estado        | Zustand (persistência localStorage)                   |
+| Utilitários   | date-fns, Lucide Icons, clsx, react-hot-toast         |
+| Documentação  | Storybook 10                                          |
+| Lint/Format   | Biome, ESLint                                         |
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) >= 18
+- npm (ou yarn/pnpm)
 
 ### Instalação
 
 ```bash
+# Clone o repositório
 git clone <url-do-repositorio>
 cd bytebank
+
+# Instale as dependências
 npm install
 ```
 
 ### Desenvolvimento
 
 ```bash
+# Inicia o servidor Next.js em http://localhost:3000
 npm run dev
-# → http://localhost:3000
 ```
 
 ### Storybook
 
 ```bash
+# Inicia o Storybook em http://localhost:6006
 npm run storybook
-# → http://localhost:6006
 ```
 
-### Build de Produção
+### Build de produção
 
 ```bash
+# Gera o build otimizado
 npm run build
+
+# Inicia o servidor de produção
 npm start
 ```
 
----
-
-## 📜 Scripts
-
-| Comando | Descrição |
-|---|---|
-| `npm run dev` | Servidor de desenvolvimento (Next.js) |
-| `npm run build` | Build otimizado de produção |
-| `npm start` | Servidor de produção |
-| `npm run lint` | Lint com Biome |
-| `npm run format` | Formatação automática com Biome |
-| `npm run check-types` | Verificação de tipos TypeScript |
-| `npm run check-all` | Pipeline completo (format → lint → types → build) |
-| `npm run storybook` | Storybook em modo desenvolvimento |
-| `npm run build-storybook` | Build estático do Storybook |
-
----
-
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do projeto
 
 ```
-bytebank/
-├── app/                          # Páginas e layout (App Router)
-│   ├── layout.tsx                # Layout raiz (Header, Provider, Toaster)
-│   ├── page.tsx                  # Home — hero section + transações recentes
-│   ├── not-found.tsx             # Página 404
-│   └── my-transactions/
-│       ├── page.tsx              # Listagem completa com filtros e paginação
-│       └── [id]/page.tsx         # Detalhes de uma transação
-│
+├── app/                  # Páginas e rotas (Next.js App Router)
+├── assets/               # Imagens e SVGs
 ├── components/
-│   ├── header/                   # Header, menu e formulário de nova transação
-│   ├── sections/                 # Hero section e card de saldo disponível
-│   ├── transactions/             # Listas, edição, exclusão, filtros e paginação
-│   └── ui/                       # Componentes base (shadcn/ui)
-│
-├── context/                      # React Context — estado global + persistência
-├── hooks/                        # Custom hooks (mobile, hydration, filtros URL)
-├── helpers/                      # Utilitários (moeda, data, paginação, busca)
-├── schema/                       # Schema de validação Zod
-├── types/                        # Tipagens TypeScript
-├── consts/                       # Constantes (itens por página, etc.)
-├── stories/                      # Stories do Storybook
-└── .storybook/                   # Configuração do Storybook
+│   ├── header/           # Header, menu e formulário de nova transação
+│   ├── sections/         # Hero section e card de saldo
+│   ├── transactions/     # Listas, edição, filtros, paginação, loading
+│   └── ui/               # Componentes base (shadcn/ui)
+├── consts/               # Constantes globais
+├── context/              # Contexto de transações (React Context)
+├── helpers/              # Funções utilitárias (formatação, busca, etc.)
+├── hooks/                # Hooks customizados
+├── lib/                  # Funções utilitárias gerais
+├── public/               # Arquivos estáticos
+├── schema/               # Schemas de validação (Zod)
+├── stories/              # Stories do Storybook
+├── types/                # Tipagens TypeScript
+├── .storybook/           # Configuração do Storybook
+├── package.json          # Dependências e scripts
+└── ...                   # Outros arquivos de configuração
 ```
+
+## 📜 Scripts disponíveis
+
+| Comando                | Descrição                                 |
+|------------------------|-------------------------------------------|
+| `npm run dev`          | Servidor de desenvolvimento Next.js       |
+| `npm run build`        | Build de produção Next.js                 |
+| `npm start`            | Servidor de produção Next.js              |
+| `npm run lint`         | Linting com Biome/ESLint                  |
+| `npm run format`       | Formatação automática com Biome           |
+| `npm run check-types`  | Checagem de tipos TypeScript              |
+| `npm run check-all`    | Formata, faz lint, checa tipos e build    |
+| `npm run storybook`    | Inicia o Storybook                        |
+| `npm run build-storybook` | Build estático do Storybook             |
 
 ---
 
-## 🧩 Modelo de Dados
-
-```typescript
-type TransactionENUM = 'deposit' | 'withdrawal'
-
-interface Transaction {
-  id: string          // UUID (crypto.randomUUID)
-  title: string       // 3–30 caracteres
-  description: string // até 100 caracteres
-  type: TransactionENUM
-  date: string        // data ISO
-  amount: number      // valor numérico
-  createdAt: string   // timestamp ISO de criação
-}
-```
-
----
-
+Projeto desenvolvido para fins educacionais no Tech Challenge FIAP.
 ## 📄 Licença
 
 Projeto acadêmico desenvolvido para o **Tech Challenge** da FIAP.
