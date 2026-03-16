@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} antialiased`}>
         <Toaster />
-        <NextTopLoader color="#5ea500" />
+        <NextTopLoader color="var(--primary)" />
         <TransactionsProvider>
           <Header />
           <TooltipProvider>
