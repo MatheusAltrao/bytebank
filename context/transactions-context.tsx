@@ -9,6 +9,8 @@ const STORAGE_KEY = 'bytebank-storage'
 
 interface TransactionsContextValue {
   transactions: Transaction[]
+  isShowingAmount: boolean
+  toggleAmountVisibility: () => void
   addTransaction: (transaction: Omit<Transaction, 'id' | 'createdAt'>) => void
   updateTransaction: (id: string, transaction: Omit<Transaction, 'id' | 'createdAt'>) => void
   removeTransaction: (id: string) => void
@@ -36,7 +38,12 @@ let initialRender = true
 
 export function TransactionsProvider({ children }: { children: React.ReactNode }) {
   const isMounted = useIsMounted()
+  const [isShowingAmount, setIsShowingAmount] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>(loadTransactions)
+
+   const toggleAmountVisibility = () => {
+    setIsShowingAmount(!isShowingAmount)
+  }
 
   useEffect(() => {
     if (initialRender) {
@@ -61,11 +68,11 @@ export function TransactionsProvider({ children }: { children: React.ReactNode }
     toast.success('Transação removida com sucesso!')
   }, [])
 
-    if (!isMounted) return null
+  if (!isMounted) return null
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, addTransaction, updateTransaction, removeTransaction }}
+      value={{ transactions, addTransaction, updateTransaction, removeTransaction, isShowingAmount, toggleAmountVisibility }}
     >
       {children}
     </TransactionsContext.Provider>
