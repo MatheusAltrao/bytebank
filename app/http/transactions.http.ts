@@ -6,7 +6,8 @@ import type {
   TransactionsListResponse,
 } from '@/types/transaction.types'
 
-const BASE_URL = 'http://localhost:3000/api/transactions'
+const BASE_URL = process.env.NEXT_PUBLIC_ENDPOINT || 'http://localhost:3000'
+const ENDPOINT = `${BASE_URL}/api/transactions`
 
 interface GetTransactionsParams {
   q?: string
@@ -42,7 +43,7 @@ export async function getTransactions(params?: GetTransactionsParams): Promise<T
   if (params?.perPage) searchParams.set('perPage', String(params.perPage))
 
   const query = searchParams.toString()
-  const url = query ? `${BASE_URL}?${query}` : BASE_URL
+  const url = query ? `${ENDPOINT}?${query}` : ENDPOINT
 
   const response = await fetch(url)
 
@@ -54,7 +55,7 @@ export async function getTransactions(params?: GetTransactionsParams): Promise<T
 }
 
 export async function getRecentTransactions(): Promise<RecentTransactionsResponse> {
-  const response = await fetch(`${BASE_URL}?recent=true`)
+  const response = await fetch(`${ENDPOINT}?recent=true`)
 
   if (!response.ok) {
     throw new Error('Erro ao buscar transações recentes')
@@ -66,7 +67,7 @@ export async function getRecentTransactions(): Promise<RecentTransactionsRespons
 
 export async function getTransactionById(id: string): Promise<TransactionProps> {
   await delay()
-  const response = await fetch(`${BASE_URL}?id=${encodeURIComponent(id)}`)
+  const response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`)
 
   if (!response.ok) {
     if (response.status === 404) {
@@ -80,7 +81,7 @@ export async function getTransactionById(id: string): Promise<TransactionProps> 
 
 export async function getBalance(): Promise<number> {
   await delay()
-  const response = await fetch(BASE_URL)
+  const response = await fetch(ENDPOINT)
 
   if (!response.ok) {
     throw new Error('Erro ao buscar saldo')
@@ -92,7 +93,7 @@ export async function getBalance(): Promise<number> {
 
 export async function createTransaction(params: CreateTransactionParams): Promise<TransactionProps> {
   await delay()
-  const response = await fetch(BASE_URL, {
+  const response = await fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
@@ -107,7 +108,7 @@ export async function createTransaction(params: CreateTransactionParams): Promis
 
 export async function updateTransaction(params: UpdateTransactionParams): Promise<TransactionProps> {
   await delay()
-  const response = await fetch(BASE_URL, {
+  const response = await fetch(ENDPOINT, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
@@ -125,7 +126,7 @@ export async function updateTransaction(params: UpdateTransactionParams): Promis
 
 export async function deleteTransaction(id: string): Promise<TransactionProps> {
   await delay()
-  const response = await fetch(`${BASE_URL}?id=${encodeURIComponent(id)}`, {
+  const response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`, {
     method: 'DELETE',
   })
 
