@@ -3,6 +3,7 @@
 **ByteBank** é uma aplicação web de controle financeiro pessoal desenvolvida como **Tech Challenge** da pós-graduação FIAP. A plataforma permite gerenciar transações financeiras (depósitos e retiradas) com saldo dinâmico, filtros avançados, paginação e persistência no navegador.
 
 🔗 **Demo:** [bytebank-nu.vercel.app](https://bytebank-nu.vercel.app/)
+🔗 **Github:** [github.com/MatheusAltrao/bytebank](https://github.com/MatheusAltrao/bytebank)
 
 ---
 
