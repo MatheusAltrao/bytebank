@@ -1,7 +1,6 @@
 'use client'
 
 import { updateTransaction } from '@/app/http/transactions.http'
-import { AlertDialogCancel, AlertDialogFooter } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -194,13 +193,15 @@ export default function EditTransactionForm({ transaction, onSuccess, onPendingC
         {errors.amount && <span className="text-xs text-destructive">{errors.amount.message}</span>}
       </div>
 
-      <AlertDialogFooter>
+      <div className="flex items-center justify-end gap-2">
         <Button type="submit" disabled={isPending}>
           {isPending && <Loading />} Salvar alterações
         </Button>
 
-        <AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
-      </AlertDialogFooter>
+        <Button type="button" variant="outline" disabled={isPending} onClick={onSuccess}>
+          Cancelar
+        </Button>
+      </div>
     </form>
   )
 }

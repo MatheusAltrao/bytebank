@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     createdAt: new Date().toISOString(),
   }
 
-  TRANSACTIONS.push(newTransaction)
+  TRANSACTIONS.unshift(newTransaction)
 
   return NextResponse.json(newTransaction, { status: 201 })
 }
