@@ -57,7 +57,7 @@ export default function DeleteTransactionButton({ transactionId }: DeleteTransac
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Excluir transação</AlertDialogTitle>
-          <AlertDialogDescription>Tem certeza que deseja excluir a transação ?</AlertDialogDescription>
+          <AlertDialogDescription>Tem certeza que deseja excluir esta transação?</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending} onClick={() => setIsOpen(false)}>
