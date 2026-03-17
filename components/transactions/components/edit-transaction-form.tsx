@@ -19,7 +19,7 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
+import { useEffect, useTransition } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -40,7 +40,9 @@ export default function EditTransactionForm({ transaction, onSuccess, onPendingC
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
 
-  onPendingChange?.(isPending)
+  useEffect(() => {
+    onPendingChange?.(isPending)
+  }, [isPending, onPendingChange])
 
   const {
     register,
