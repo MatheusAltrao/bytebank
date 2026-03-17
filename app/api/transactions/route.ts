@@ -73,13 +73,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Campos obrigatórios: title, type, date, amount' }, { status: 400 })
   }
 
+  const allowedTypes: TransactionENUM[] = ['deposit', 'withdrawal']
+  if (!allowedTypes.includes(type)) {
+    return NextResponse.json({ error: 'Tipo inválido. Valores permitidos: deposit, withdrawal' }, { status: 400 })
+  }
+
+  const parsedAmount = Number(amount)
+  if (!Number.isFinite(parsedAmount)) {
+    return NextResponse.json({ error: 'Amount deve ser um número finito' }, { status: 400 })
+  }
+
+  const isValidDate = typeof date === 'string' && !Number.isNaN(Date.parse(date))
+  if (!isValidDate) {
+    return NextResponse.json({ error: 'Date deve ser uma data válida em formato ISO' }, { status: 400 })
+  }
+
   const newTransaction: TransactionProps = {
     id: crypto.randomUUID(),
     title,
     description: description ?? '',
     type,
     date,
-    amount: Number(amount),
+    amount: parsedAmount,
     createdAt: new Date().toISOString(),
   }
 
