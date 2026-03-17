@@ -1,13 +1,7 @@
 import { TRANSACTIONS } from '@/consts/table'
+import { transactionsMatchesSearch } from '@/helpers/transactions'
 import type { TransactionENUM, TransactionProps } from '@/types/transaction.types'
 import { NextRequest, NextResponse } from 'next/server'
-
-function matchesSearch(transaction: TransactionProps, search: string): boolean {
-  const term = search.toLowerCase()
-  if (transaction.title.toLowerCase().includes(term)) return true
-  if (transaction.amount.toString().includes(term)) return true
-  return false
-}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl
@@ -36,7 +30,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (search) {
-    filtered = filtered.filter((t) => matchesSearch(t, search))
+    filtered = filtered.filter((t) => transactionsMatchesSearch(t, search))
   }
 
   // Recentes (últimas 5 ordenadas por data)
