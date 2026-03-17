@@ -16,7 +16,7 @@
 | **Excluir transação** | Remoção com diálogo de confirmação (Alert Dialog) |
 | **Visualizar detalhes** | Página dedicada por transação (`/my-transactions/[id]`) |
 | **Saldo dinâmico** | Cálculo automático (depósitos − retiradas) com opção de ocultar/exibir o valor |
-| **Busca e filtros** | Busca textual multi-campo (título, data, valor) + filtro por tipo (Depósito / Retirada) via query params |
+| **Busca e filtros** | Busca textual por título e valor + filtro por tipo (Depósito / Retirada) via query params |
 | **Paginação** | Navegação entre páginas (5 itens por página) com lógica de ellipsis |
 | **API REST** | Endpoints CRUD completos (`GET`, `POST`, `PATCH`, `DELETE`) com dados mockados em memória |
 | **Skeleton loading** | Suspense boundaries com skeletons nas tabelas durante carregamento server-side |
