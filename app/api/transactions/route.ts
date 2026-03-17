@@ -8,8 +8,14 @@ export async function GET(request: NextRequest) {
 
   const search = searchParams.get('q') ?? ''
   const typeFilter = searchParams.get('type') as TransactionENUM | 'all' | null
-  const page = Number(searchParams.get('page') ?? '1')
-  const perPage = Number(searchParams.get('perPage') ?? '5')
+  const rawPage = Number(searchParams.get('page') ?? '1')
+  const rawPerPage = Number(searchParams.get('perPage') ?? '5')
+
+  const page =
+    Number.isFinite(rawPage) && rawPage > 0 ? Math.floor(rawPage) : 1
+  const perPage =
+    Number.isFinite(rawPerPage) && rawPerPage > 0 ? Math.floor(rawPerPage) : 5
+
   const recent = searchParams.get('recent') === 'true'
   const id = searchParams.get('id')
 
