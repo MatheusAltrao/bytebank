@@ -1,13 +1,13 @@
 'use client'
 
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { useRef, useState } from 'react'
@@ -18,32 +18,32 @@ export default function AddNewTransactionDesktop() {
   const isPendingRef = useRef(false)
 
   return (
-    <AlertDialog
+    <Dialog
       open={open}
       onOpenChange={(value) => {
         if (!isPendingRef.current) setOpen(value)
       }}
     >
-      <AlertDialogTrigger asChild>
+      <DialogTrigger asChild>
         <Button className="justify-start">
           <Plus /> Nova Transação
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Adicionar nova transação</AlertDialogTitle>
-          <AlertDialogDescription>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Adicionar nova transação</DialogTitle>
+          <DialogDescription>
             Para acompanhar seus gastos e receitas. Preencha os detalhes da transação, para manter seu controle
             financeiro atualizado.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </DialogDescription>
+        </DialogHeader>
         <AddNewTransactionForm
           setOpen={setOpen}
           onPendingChange={(p) => {
             isPendingRef.current = p
           }}
         />
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   )
 }
