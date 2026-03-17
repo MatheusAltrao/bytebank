@@ -2,25 +2,16 @@
 
 import EditTransaction from '@/components/transactions/components/edit-transaction'
 import { Badge } from '@/components/ui/badge'
-import { useTransactions } from '@/context/transactions-context'
 import { formatAmount } from '@/helpers/amount'
 import { formatDate } from '@/helpers/date'
 import { badgeVariant } from '@/helpers/transactions'
-import { TYPE_LABELS } from '@/types/transaction.types'
-import { redirect } from 'next/navigation'
+import { TransactionProps, TYPE_LABELS } from '@/types/transaction.types'
 
 interface TransactionDetailsCardProps {
-  transactionId: string
+  transaction: TransactionProps
 }
 
-export default function TransactionDetailsCard({ transactionId }: TransactionDetailsCardProps) {
-  const { transactions } = useTransactions()
-  const transaction = transactions.find((t) => t.id === transactionId)
-
-  if (!transaction) {
-    redirect('/')
-  }
-
+export default function TransactionDetailsCard({ transaction }: TransactionDetailsCardProps) {
   return (
     <div className="rounded-xl border p-6 space-y-4">
       <div className="flex items-center justify-between">

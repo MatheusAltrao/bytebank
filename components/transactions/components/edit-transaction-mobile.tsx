@@ -10,20 +10,26 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import type { Transaction } from '@/types/transaction.types'
+import { TransactionProps } from '@/types/transaction.types'
 import { Pen } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import EditTransactionForm from './edit-transaction-form'
 
 interface EditTransactionMobileProps {
-  transaction: Transaction
+  transaction: TransactionProps
 }
 
 export default function EditTransactionMobile({ transaction }: EditTransactionMobileProps) {
   const [open, setOpen] = useState(false)
+  const isPendingRef = useRef(false)
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer
+      open={open}
+      onOpenChange={(value) => {
+        if (!isPendingRef.current) setOpen(value)
+      }}
+    >
       <Tooltip>
         <TooltipTrigger asChild>
           <DrawerTrigger asChild>
@@ -40,7 +46,13 @@ export default function EditTransactionMobile({ transaction }: EditTransactionMo
           <DrawerDescription>Altere os dados da transação e clique em salvar para atualizar.</DrawerDescription>
         </DrawerHeader>
         <div className="p-4 pt-0">
-          <EditTransactionForm transaction={transaction} onSuccess={() => setOpen(false)} />
+          <EditTransactionForm
+            transaction={transaction}
+            onSuccess={() => setOpen(false)}
+            onPendingChange={(p) => {
+              isPendingRef.current = p
+            }}
+          />
         </div>
       </DrawerContent>
     </Drawer>

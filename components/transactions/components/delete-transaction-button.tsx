@@ -1,7 +1,7 @@
 'use client'
+import { deleteTransaction } from '@/app/http/transactions.http'
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -11,20 +11,44 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import Loading from '@/components/ui/loading'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { useTransactions } from '@/context/transactions-context'
-import { Transaction } from '@/types/transaction.types'
 import { Trash } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState, useTransition } from 'react'
+import toast from 'react-hot-toast'
 
 interface DeleteTransactionButtonProps {
-  transaction: Transaction
+  transactionId: string
 }
 
-export default function DeleteTransactionButton({ transaction }: DeleteTransactionButtonProps) {
-  const { removeTransaction } = useTransactions()
+export default function DeleteTransactionButton({ transactionId }: DeleteTransactionButtonProps) {
+  const [open, setIsOpen] = useState(false)
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+
+  async function handleDelete() {
+    startTransition(async () => {
+      try {
+        await deleteTransaction(transactionId)
+        setIsOpen(false)
+        toast.success('Transação removida com sucesso!')
+        router.refresh()
+      } catch (error) {
+        console.log('Error deleting transaction:', error)
+        setIsOpen(false)
+        toast.error('Ocorreu um erro ao remover a transação. Tente novamente.')
+      }
+    })
+  }
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (isPending) return
+    setIsOpen(nextOpen)
+  }
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <Tooltip>
         <TooltipTrigger asChild>
           <AlertDialogTrigger asChild>
@@ -38,15 +62,15 @@ export default function DeleteTransactionButton({ transaction }: DeleteTransacti
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Excluir transação</AlertDialogTitle>
-          <AlertDialogDescription>
-            Tem certeza que deseja excluir a transação <strong className="truncate w-40">{transaction.title}</strong>?
-          </AlertDialogDescription>
+          <AlertDialogDescription>Tem certeza que deseja excluir esta transação?</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={() => removeTransaction(transaction.id)}>
-            Excluir
-          </AlertDialogAction>
+          <AlertDialogCancel disabled={isPending} onClick={() => setIsOpen(false)}>
+            Cancelar
+          </AlertDialogCancel>
+          <Button variant="destructive" onClick={handleDelete} disabled={isPending}>
+            {isPending && <Loading />} Excluir
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

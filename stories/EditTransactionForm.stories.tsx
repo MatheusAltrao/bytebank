@@ -1,8 +1,8 @@
 import EditTransactionForm from '@/components/transactions/components/edit-transaction-form'
-import type { Transaction } from '@/types/transaction.types'
+import type { TransactionProps } from '@/types/transaction.types'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
-const mockTransaction: Transaction = {
+const mockTransaction: TransactionProps = {
   id: '1',
   title: 'Salário',
   type: 'deposit',
@@ -12,7 +12,7 @@ const mockTransaction: Transaction = {
   description: 'Recebimento do salário mensal',
 }
 
-const mockRetirada: Transaction = {
+const mockRetirada: TransactionProps = {
   id: '2',
   title: 'Aluguel',
   type: 'withdrawal',

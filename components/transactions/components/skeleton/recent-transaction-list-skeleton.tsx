@@ -26,16 +26,13 @@ function SkeletonRow() {
   )
 }
 
-export default function MyTransactionsListLoading() {
+export default function RecentTransactionListLoading() {
   return (
     <div className="space-y-4">
-      {/* Filtros skeleton */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="h-8 w-full animate-pulse rounded-lg bg-muted sm:flex-1" />
-        <div className="h-8 w-full animate-pulse rounded-lg bg-muted sm:w-44" />
-      </div>
-
-      {/* Tabela skeleton */}
+      <header>
+        <h2 className="text-lg font-semibold">Transações Recentes</h2>
+        <p className="text-sm text-muted-foreground">Veja as transações mais recentes realizadas.</p>
+      </header>
       <Table>
         <TableHeader>
           <TableRow>
@@ -47,17 +44,13 @@ export default function MyTransactionsListLoading() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 5 }).map((_, i) => (
             <SkeletonRow key={i} />
           ))}
         </TableBody>
       </Table>
-
-      {/* Paginação skeleton */}
-      <div className="flex items-center justify-center gap-2">
-        <div className="h-8 w-8 animate-pulse rounded bg-muted" />
-        <div className="h-8 w-8 animate-pulse rounded bg-muted" />
-        <div className="h-8 w-8 animate-pulse rounded bg-muted" />
+      <div className="flex items-center justify-center">
+        <div className="h-8 w-52 animate-pulse rounded bg-muted" />
       </div>
     </div>
   )

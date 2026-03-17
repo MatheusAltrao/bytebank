@@ -1,8 +1,8 @@
 import EditTransaction from '@/components/transactions/components/edit-transaction'
-import type { Transaction } from '@/types/transaction.types'
+import type { TransactionProps } from '@/types/transaction.types'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
-const mockTransaction: Transaction = {
+const mockTransaction: TransactionProps = {
   id: '1',
   title: 'Salário',
   type: 'deposit',

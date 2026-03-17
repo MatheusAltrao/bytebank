@@ -1,4 +1,4 @@
-import { TransactionENUM } from '@/types/transaction.types'
+import { TransactionENUM, TransactionProps } from '@/types/transaction.types'
 
 export const badgeVariant = (type: TransactionENUM) => {
   switch (type) {
@@ -9,4 +9,11 @@ export const badgeVariant = (type: TransactionENUM) => {
     default:
       return 'secondary'
   }
+}
+
+export function transactionsMatchesSearch(transaction: TransactionProps, search: string): boolean {
+  const term = search.toLowerCase()
+  if (transaction.title.toLowerCase().includes(term)) return true
+  if (transaction.amount.toString().includes(term)) return true
+  return false
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -9,15 +8,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import AddNewTransactionForm from './add-new-transaction-form'
 
 export default function AddNewTransactionDesktop() {
   const [open, setOpen] = useState(false)
+  const isPendingRef = useRef(false)
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        if (!isPendingRef.current) setOpen(value)
+      }}
+    >
       <DialogTrigger asChild>
         <Button className="justify-start">
           <Plus /> Nova Transação
@@ -31,7 +37,12 @@ export default function AddNewTransactionDesktop() {
             financeiro atualizado.
           </DialogDescription>
         </DialogHeader>
-        <AddNewTransactionForm onSuccess={() => setOpen(false)} />
+        <AddNewTransactionForm
+          setOpen={setOpen}
+          onPendingChange={(p) => {
+            isPendingRef.current = p
+          }}
+        />
       </DialogContent>
     </Dialog>
   )
