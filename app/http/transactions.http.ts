@@ -1,4 +1,6 @@
+import { TRANSACTIONS } from '@/consts/table'
 import { delay } from '@/helpers/delay'
+import { transactionsMatchesSearch } from '@/helpers/transactions'
 import type {
   RecentTransactionsResponse,
   TransactionENUM,
@@ -33,80 +35,63 @@ interface UpdateTransactionParams {
   amount?: number
 }
 
-export async function getTransactions(params?: GetTransactionsParams): Promise<TransactionsListResponse | null> {
-  try {
-    await delay()
-    const searchParams = new URLSearchParams()
+// --- Acesso direto aos dados (Server Components) ---
 
-    if (params?.q) searchParams.set('q', params.q)
-    if (params?.type && params.type !== 'all') searchParams.set('type', params.type)
-    if (params?.page) searchParams.set('page', String(params.page))
-    if (params?.perPage) searchParams.set('perPage', String(params.perPage))
+export function getTransactions(params?: GetTransactionsParams): TransactionsListResponse {
+  const search = params?.q ?? ''
+  const typeFilter = params?.type ?? null
+  const page = params?.page ?? 1
+  const perPage = params?.perPage ?? 5
 
-    const query = searchParams.toString()
-    const url = query ? `${ENDPOINT}?${query}` : ENDPOINT
+  let filtered = [...TRANSACTIONS]
 
-    const response = await fetch(url)
+  if (typeFilter && typeFilter !== 'all') {
+    filtered = filtered.filter((t) => t.type === typeFilter)
+  }
 
-    if (!response.ok) {
-      return null
-    }
+  if (search) {
+    filtered = filtered.filter((t) => transactionsMatchesSearch(t, search))
+  }
 
-    return response.json()
-  } catch (error) {
-    console.log('Error fetching transactions:', error)
-    return null
+  const total = filtered.length
+  const totalPages = Math.max(1, Math.ceil(total / perPage))
+  const safePage = Math.min(page, totalPages)
+  const start = (safePage - 1) * perPage
+  const paginated = filtered.slice(start, start + perPage)
+
+  const balance = TRANSACTIONS.reduce((acc, t) => {
+    return t.type === 'deposit' ? acc + t.amount : acc - t.amount
+  }, 0)
+
+  return {
+    data: paginated,
+    total,
+    totalPages,
+    currentPage: safePage,
+    perPage,
+    balance,
   }
 }
 
-export async function getRecentTransactions(): Promise<RecentTransactionsResponse | null> {
-  try {
-    await delay()
-    const response = await fetch(`${ENDPOINT}?recent=true`)
-
-    if (!response.ok) {
-      return null
-    }
-
-    return response.json()
-  } catch (error) {
-    console.log('Error fetching recent transactions:', error)
-    return null
+export function getRecentTransactions(): RecentTransactionsResponse {
+  const sorted = [...TRANSACTIONS].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  return {
+    data: sorted.slice(0, 5),
+    total: TRANSACTIONS.length,
   }
 }
 
-export async function getTransactionById(id: string): Promise<TransactionProps | null> {
-  try {
-    await delay()
-    const response = await fetch(`${ENDPOINT}?id=${encodeURIComponent(id)}`)
-
-    if (!response.ok) {
-      return null
-    }
-
-    return response.json()
-  } catch (error) {
-    console.log('Error fetching transaction by id:', error)
-    return null
-  }
+export function getTransactionById(id: string): TransactionProps | null {
+  return TRANSACTIONS.find((t) => t.id === id) ?? null
 }
 
-export async function getBalance(): Promise<number> {
-  try {
-    await delay()
-    const response = await fetch(ENDPOINT)
-
-    if (!response.ok) {
-      return 0
-    }
-
-    const data: TransactionsListResponse = await response.json()
-    return data.balance
-  } catch (error) {
-    console.log('Error fetching balance:', error)
-    return 0
-  }
+export function getBalance(): number {
+  return TRANSACTIONS.reduce((acc, t) => {
+    return t.type === 'deposit' ? acc + t.amount : acc - t.amount
+  }, 0)
 }
+
+// --- Funções HTTP (Client Components) ---
 
 export async function createTransaction(params: CreateTransactionParams): Promise<TransactionProps> {
   await delay()

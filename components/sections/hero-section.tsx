@@ -1,8 +1,8 @@
 import { getBalance } from '@/app/http/transactions.http'
 import AvaliableAmountCard from './components/avaliable-amount-card'
 
-export default async function HeroSection() {
-  const balance = await getBalance()
+export default function HeroSection() {
+  const balance = getBalance()
 
   return (
     <div className="bg-secondary py-8 px-2 rounded-xl flex flex-col gap-4">

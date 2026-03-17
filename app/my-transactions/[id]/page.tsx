@@ -10,7 +10,7 @@ interface TransactionByIdPageProps {
 export default async function TransactionByIdPage({ params }: TransactionByIdPageProps) {
   const { id } = await params
 
-  const transactionById = await getTransactionById(id)
+  const transactionById = getTransactionById(id)
 
   if (!transactionById) {
     notFound()
