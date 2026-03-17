@@ -42,8 +42,13 @@ export default function DeleteTransactionButton({ transactionId }: DeleteTransac
     })
   }
 
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (isPending) return
+    setIsOpen(nextOpen)
+  }
+
   return (
-    <AlertDialog open={open} onOpenChange={setIsOpen}>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
       <Tooltip>
         <TooltipTrigger asChild>
           <AlertDialogTrigger asChild>
