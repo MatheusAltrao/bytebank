@@ -3,6 +3,8 @@ import BackButton from '@/components/ui/back-button'
 import { notFound } from 'next/navigation'
 import TransactionDetailsCard from './components/transaction-details-card'
 
+export const dynamic = 'force-dynamic'
+
 interface TransactionByIdPageProps {
   params: Promise<{ id: string }>
 }

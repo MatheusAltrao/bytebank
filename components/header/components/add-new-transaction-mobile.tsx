@@ -10,20 +10,14 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Plus } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import AddNewTransactionForm from './add-new-transaction-form'
 
 export default function AddNewTransactionMobile() {
   const [open, setOpen] = useState(false)
-  const isPendingRef = useRef(false)
 
   return (
-    <Drawer
-      open={open}
-      onOpenChange={(value) => {
-        if (!isPendingRef.current) setOpen(value)
-      }}
-    >
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button className="justify-start">
           <Plus /> Nova Transação
@@ -38,12 +32,7 @@ export default function AddNewTransactionMobile() {
           </DrawerDescription>
         </DrawerHeader>
         <div className="p-4 pt-0">
-          <AddNewTransactionForm
-            setOpen={setOpen}
-            onPendingChange={(p) => {
-              isPendingRef.current = p
-            }}
-          />
+          <AddNewTransactionForm setOpen={setOpen} />
         </div>
       </DrawerContent>
     </Drawer>

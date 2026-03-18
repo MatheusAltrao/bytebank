@@ -2,7 +2,7 @@ import { TransactionProps } from '@/types/transaction.types'
 
 export const ITEMS_PER_PAGE = 5
 
-export const TRANSACTIONS: TransactionProps[] = [
+const initialTransactions: TransactionProps[] = [
   {
     id: '1',
     title: 'Salário',
@@ -67,3 +67,13 @@ export const TRANSACTIONS: TransactionProps[] = [
     createdAt: '2025-03-20T13:00:00.000Z',
   },
 ]
+
+// Usa globalThis para garantir que Server Components e API Routes
+// compartilhem a mesma instância do array (singleton pattern)
+const globalForTransactions = globalThis as unknown as {
+  __TRANSACTIONS__: TransactionProps[] | undefined
+}
+
+export const TRANSACTIONS: TransactionProps[] = globalForTransactions.__TRANSACTIONS__ ?? initialTransactions
+
+globalForTransactions.__TRANSACTIONS__ = TRANSACTIONS

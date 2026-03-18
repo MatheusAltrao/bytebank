@@ -3,6 +3,8 @@ import RecentTransactionListSkeleton from '@/components/transactions/components/
 import RecentTransactionListServer from '@/components/transactions/recent-transaction-list-server'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <div className="space-y-8">

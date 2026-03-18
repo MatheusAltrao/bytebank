@@ -18,29 +18,23 @@ import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalendarIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useTransition } from 'react'
+import { useTransition } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 interface AddNewTransactionFormProps {
   setOpen: (open: boolean) => void
-  onPendingChange?: (pending: boolean) => void
 }
 
-export default function AddNewTransactionForm({ setOpen, onPendingChange }: AddNewTransactionFormProps) {
+export default function AddNewTransactionForm({ setOpen }: AddNewTransactionFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
-
-  useEffect(() => {
-    onPendingChange?.(isPending)
-  }, [isPending, onPendingChange])
 
   const {
     register,
     handleSubmit,
     control,
     setValue,
-    reset,
     formState: { errors },
   } = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
@@ -61,7 +55,7 @@ export default function AddNewTransactionForm({ setOpen, onPendingChange }: AddN
     setValue('amount', formatted, { shouldValidate: true })
   }
 
-  function onSubmit(data: TransactionFormData) {
+  async function onSubmit(data: TransactionFormData) {
     startTransition(async () => {
       try {
         const amountNumerico = Number(data.amount.replace(/\./g, '').replace(',', '.'))
@@ -75,9 +69,8 @@ export default function AddNewTransactionForm({ setOpen, onPendingChange }: AddN
         })
 
         toast.success('Transação adicionada com sucesso!')
-        reset()
-        router.refresh()
         setOpen(false)
+        router.refresh()
       } catch (error) {
         console.log('Error creating transaction:', error)
         toast.error('Ocorreu um erro ao adicionar a transação. Tente novamente.')

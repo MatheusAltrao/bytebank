@@ -3,6 +3,8 @@ import MyTransactionListServer from '@/components/transactions/my-transaction-li
 import BackButton from '@/components/ui/back-button'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 interface MyTransactionsPageProps {
   searchParams: Promise<{ q?: string; type?: string; page?: string }>
 }
