@@ -1,6 +1,6 @@
 'use client'
 
-import { updateTransaction } from '@/app/http/transactions.http'
+import { updateTransactionAction } from '@/app/actions/transactions.actions'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -74,7 +74,7 @@ export default function EditTransactionForm({ transaction, onSuccess, onPendingC
       try {
         const formattedAmount = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
-        await updateTransaction({
+        await updateTransactionAction({
           id: transaction.id,
           title: data.title,
           description: data.description,

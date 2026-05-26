@@ -1,5 +1,5 @@
 'use client'
-import { deleteTransaction } from '@/app/http/transactions.http'
+import { deleteTransactionAction } from '@/app/actions/transactions.actions'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -30,7 +30,7 @@ export default function DeleteTransactionButton({ transactionId }: DeleteTransac
   async function handleDelete() {
     startTransition(async () => {
       try {
-        await deleteTransaction(transactionId)
+        await deleteTransactionAction(transactionId)
         setIsOpen(false)
         toast.success('Transação removida com sucesso!')
         router.refresh()

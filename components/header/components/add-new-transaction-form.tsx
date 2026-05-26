@@ -1,6 +1,6 @@
 'use client'
 
-import { createTransaction } from '@/app/http/transactions.http'
+import { createTransactionAction } from '@/app/actions/transactions.actions'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -66,7 +66,7 @@ export default function AddNewTransactionForm({ setOpen, onPendingChange }: AddN
       try {
         const amountNumerico = Number(data.amount.replace(/\./g, '').replace(',', '.'))
 
-        await createTransaction({
+        await createTransactionAction({
           title: data.title,
           type: data.type,
           date: data.date.toISOString(),

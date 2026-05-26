@@ -1,6 +1,11 @@
-import { TRANSACTIONS } from '@/consts/table'
 import { transactionsMatchesSearch } from '@/helpers/transactions'
-import type { TransactionENUM, TransactionProps } from '@/types/transaction.types'
+import {
+  createTransactionInStore,
+  deleteTransactionInStore,
+  updateTransactionInStore,
+} from '@/lib/transactions-repository'
+import { TRANSACTIONS } from '@/consts/table'
+import type { TransactionENUM } from '@/types/transaction.types'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -71,82 +76,43 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json()
-
-  const { title, description, type, date, amount } = body
-
-  if (!title || !type || !date || amount == null) {
-    return NextResponse.json({ error: 'Campos obrigatórios: title, type, date, amount' }, { status: 400 })
+  try {
+    const body = await request.json()
+    const newTransaction = createTransactionInStore(body)
+    return NextResponse.json(newTransaction, { status: 201 })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Erro ao criar transação'
+    const status = message.includes('obrigatórios') || message.includes('inválido') ? 400 : 500
+    return NextResponse.json({ error: message }, { status })
   }
-
-  const allowedTypes: TransactionENUM[] = ['deposit', 'withdrawal']
-  if (!allowedTypes.includes(type)) {
-    return NextResponse.json({ error: 'Tipo inválido. Valores permitidos: deposit, withdrawal' }, { status: 400 })
-  }
-
-  const parsedAmount = Number(amount)
-  if (!Number.isFinite(parsedAmount)) {
-    return NextResponse.json({ error: 'Amount deve ser um número finito' }, { status: 400 })
-  }
-
-  const isValidDate = typeof date === 'string' && !Number.isNaN(Date.parse(date))
-  if (!isValidDate) {
-    return NextResponse.json({ error: 'Date deve ser uma data válida em formato ISO' }, { status: 400 })
-  }
-
-  const newTransaction: TransactionProps = {
-    id: crypto.randomUUID(),
-    title,
-    description: description ?? '',
-    type,
-    date,
-    amount: parsedAmount,
-    createdAt: new Date().toISOString(),
-  }
-
-  TRANSACTIONS.unshift(newTransaction)
-
-  return NextResponse.json(newTransaction, { status: 201 })
 }
 
 export async function PATCH(request: NextRequest) {
-  const body = await request.json()
-  const { id, ...updates } = body
-
-  if (!id) {
-    return NextResponse.json({ error: 'ID é obrigatório' }, { status: 400 })
+  try {
+    const body = await request.json()
+    const updated = updateTransactionInStore(body)
+    return NextResponse.json(updated)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Erro ao atualizar transação'
+    const status = message === 'Transação não encontrada' ? 404 : message.includes('obrigatório') ? 400 : 500
+    return NextResponse.json({ error: message }, { status })
   }
-
-  const index = TRANSACTIONS.findIndex((t) => t.id === id)
-
-  if (index === -1) {
-    return NextResponse.json({ error: 'Transação não encontrada' }, { status: 404 })
-  }
-
-  TRANSACTIONS[index] = {
-    ...TRANSACTIONS[index],
-    ...updates,
-    id: TRANSACTIONS[index].id,
-    createdAt: TRANSACTIONS[index].createdAt,
-  }
-
-  return NextResponse.json(TRANSACTIONS[index])
 }
 
 export async function DELETE(request: NextRequest) {
-  const { searchParams } = request.nextUrl
-  const id = searchParams.get('id')
+  try {
+    const { searchParams } = request.nextUrl
+    const id = searchParams.get('id')
 
-  if (!id) {
-    return NextResponse.json({ error: 'ID é obrigatório' }, { status: 400 })
+    if (!id) {
+      return NextResponse.json({ error: 'ID é obrigatório' }, { status: 400 })
+    }
+
+    const removed = deleteTransactionInStore(id)
+    return NextResponse.json(removed)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Erro ao excluir transação'
+    const status = message === 'Transação não encontrada' ? 404 : 400
+    return NextResponse.json({ error: message }, { status })
   }
-
-  const index = TRANSACTIONS.findIndex((t) => t.id === id)
-
-  if (index === -1) {
-    return NextResponse.json({ error: 'Transação não encontrada' }, { status: 404 })
-  }
-
-  const removed = TRANSACTIONS.splice(index, 1)[0]
-  return NextResponse.json(removed)
 }
